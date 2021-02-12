@@ -65,7 +65,7 @@ if __name__ == "__main__":
       print("[{}/{}] - start download {} klines ".format(current+1, all, symbol))
       for interval in INTERVALS:
         for year in YEARS:
-          for month in list(range(1, 12)):
+          for month in list(range(1, 13)):
             path = "data/spot/klines/{}/{}/".format(symbol.upper(), interval)
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
             download_file(path, file_name)
