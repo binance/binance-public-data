@@ -6,25 +6,31 @@ To help users download our public data easily, we've put all Kline, Trade, and A
 
 ## What data is available
 
-SPOT
+### SPOT
 
 * `Klines`
 * `Trades`
 
-FUTURES data is **not available** as of this time.
 
-### Klines
+#### Klines
 The klines data is downloaded from `/api/v3/klines` and the title for each column in the kline data:
 
 |Open time|Open|High|Low|Close|Volume|Close time|Quote asset volume|Number of trades|Taker buy base asset volume|Taker buy quote asset volume|Ignore|
 | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
 |1601510340000|4.15070000|4.15870000|4.15060000|4.15540000|539.23000000|1601510399999|2240.39860900|13|401.82000000|1669.98121300|0|
 
-### Trades
+#### Trades
 The trades data is downloaded from `/api/v3/historicalTrades`, the title for each column in the trades data:
 |trade Id| price| qty|quoteQty|time|isBuyerMaker|isBestMatch|
 | -- | -- | -- | -- | -- | -- | -- |
 |51175358|17.80180000|5.69000000|101.29224200|1583709433583|True|True|
+
+
+
+### FUTURES
+* USD-M Futures
+* COIN-M Futures
+
 
 ## Where do I access it
 
