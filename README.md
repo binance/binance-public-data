@@ -82,6 +82,20 @@ We will expand this section with more methods in the future.
 
 There are additional helper scripts both in python and shell in their respective folders of this repository.
 
+## CHECKSUM
+Each zip file has a `.CHECKSUM` file together in the same folder to verify data integrity. 
+
+To Check:
+
+```shell
+# From Linux, sha256sum -c <zip_file_name.CHECKSUM>
+sha256sum -c BNBUSDT-1m-2021-01.zip.CHECKSUM
+
+# From MacOS
+shasum -a 256 -c BNBUSDT-1m-2021-01.zip.CHECKSUM
+```
+
+
 ## I have an issue/question
 
 Please open an issue [here](https://github.com/binance/binance-public-data/issues). 
