@@ -2,7 +2,6 @@
 
 To help users download our public data easily, we've put all Kline, Trade, and AggTrade data for all pairs, month by month, online.
 
-**Note:** AggTrade data is still being prepared.
 
 ## What data is available
 
