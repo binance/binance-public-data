@@ -7,9 +7,17 @@ To help users download our public data easily, we've put all Kline, Trade, and A
 
 ### SPOT
 
+* `AggTrades`
 * `Klines`
 * `Trades`
 
+
+#### AggTrades
+The aggTrades is downloaded from `/api/v3/aggTrades` and the title for each column:
+
+|Aggregate tradeId|Price|Quantity|First tradeId|Last tradeId|Timestamp|Was the buyer the maker|Was the trade the best price match|
+| -- | -- | -- | -- | -- | -- | -- | -- |
+|0|0.20000000|50.00000000|0|0|1608872400000|False|True|
 
 #### Klines
 The klines data is downloaded from `/api/v3/klines` and the title for each column in the kline data:
