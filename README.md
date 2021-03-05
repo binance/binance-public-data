@@ -46,9 +46,9 @@ The base url is `https://data.binance.vision` and you can use your browser to vi
 ### Klines
 
 All symbols are supported, the file format is:<br/>
-`<base_url>/data/spot/klines/<symbol_in_uppercase>/<interval>/<symbol_in_uppercase>-<interval>-<year>-<month>.zip`<br/><br/>
+`<base_url>/data/spot/monthly/klines/<symbol_in_uppercase>/<interval>/<symbol_in_uppercase>-<interval>-<year>-<month>.zip`<br/><br/>
 e.g. the url for BNBUSDT 1m klines for 2019-01 is:<br/>
-`https://data.binance.vision/data/spot/klines/BNBUSDT/1m/BNBUSDT-1m-2019-01.zip`
+`https://data.binance.vision/data/spot/monthly/klines/BNBUSDT/1m/BNBUSDT-1m-2019-01.zip`
 
 
 #### Intervals
@@ -60,9 +60,9 @@ All intervals are supported:
 ### Trades
 
 All symbols are supported, the file format is:<br/>
-`<base_url>/data/spot/trades/<symbol_in_uppercase>/<symbol_in_uppercase>-trades-<year>-<month>.zip`<br/><br/>
+`<base_url>/data/spot/monthly/trades/<symbol_in_uppercase>/<symbol_in_uppercase>-trades-<year>-<month>.zip`<br/><br/>
 e.g. the url BNBUSDT trades in 2019-01 is:<br/>
-`https://data.binance.vision/data/spot/trades/BNBUSDT/BNBUSDT-trades-2019-01.zip`
+`https://data.binance.vision/data/spot/monthly/trades/BNBUSDT/BNBUSDT-trades-2019-01.zip`
 
 ### AggTrades
 
@@ -74,8 +74,8 @@ This section will be updated when the data is uploaded.
 ```shell
 
 # download a single file
-curl -s "https://data.binance.vision/data/spot/klines/ADABKRW/1h/ADABKRW-1h-2020-08.zip" -o ADABKRW-1h-2020-08.zip
-wget "https://data.binance.vision/data/spot/klines/ADABKRW/1h/ADABKRW-1h-2020-08.zip"
+curl -s "https://data.binance.vision/data/spot/monthly/klines/ADABKRW/1h/ADABKRW-1h-2020-08.zip" -o ADABKRW-1h-2020-08.zip
+wget "https://data.binance.vision/data/spot/monthly/klines/ADABKRW/1h/ADABKRW-1h-2020-08.zip"
 ```
 
 We will expand this section with more methods in the future.
