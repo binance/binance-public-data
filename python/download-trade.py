@@ -41,7 +41,7 @@ def download_file(path, file_name):
   save_path = get_destination_dir(file_path)
 
   if os.path.exists(save_path):
-    print("file already exists! {}".format(save_path))
+    print("\nfile already exists! {}".format(save_path))
     return
   
   # make the directory
@@ -49,12 +49,27 @@ def download_file(path, file_name):
 
   try:
     download_url = get_download_url(file_path)
-    with urllib.request.urlopen(download_url) as dl_file:
-        with open(save_path, 'wb') as out_file:
-            out_file.write(dl_file.read())
-            print("File Download: {}".format(save_path))
+    dl_file = urllib.request.urlopen(download_url)
+    length = dl_file.getheader('content-length')
+    if length:
+      length = int(length)
+      blocksize = max(4096,length//100)
+
+    with open(save_path, 'wb') as out_file:
+      dl_progress = 0
+      print("\nFile Download: {}".format(save_path))
+      while True:
+        buf = dl_file.read(blocksize)   
+        if not buf:
+          break
+        dl_progress += len(buf)
+        out_file.write(buf)
+        done = int(50 * dl_progress / length)
+        sys.stdout.write("\r[%s%s]" % ('#' * done, '.' * (50-done)) )    
+        sys.stdout.flush()
+
   except urllib.error.HTTPError:
-    print("File not found: {}".format(download_url))
+    print("\nFile not found: {}".format(download_url))
     pass
 
 def match_date_regex(arg_value, pat=re.compile(r'\d{4}-\d{2}-\d{2}')):
@@ -74,8 +89,8 @@ def get_parser():
         '-m', dest='months', default=MONTHS,  nargs='+', type=int, choices=MONTHS,
         help='single month or multiple months separated by space\n-m 2 12 means to download trades from feb and dec')
     parser.add_argument(
-        '-d', dest='days', nargs='+', type=match_date_regex,
-        help='date to download in [YYYY-MM-DD] format\nsingle day or multiple days separated by space\nDownload past 35 days if no argument is parsed')
+        '-d', dest='dates', nargs='+', type=match_date_regex,
+        help='date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\nDownload past 35 days if no argument is parsed')
     parser.add_argument(
         '-c', dest='checksum', default=0, type=int, choices=[0,1],
         help='1 to download checksum file, default 0')
@@ -101,20 +116,20 @@ def download_monthly_trades(symbols, num_symbols, years, months, checksum):
     
     current += 1
 
-def download_daily_trades(symbols, num_symbols, days, checksum):
+def download_daily_trades(symbols, num_symbols, dates, checksum):
   current = 0
   print("Found {} symbols".format(num_symbols))
 
   for symbol in symbols:
     print("[{}/{}] - start download daily {} trades ".format(current+1, num_symbols, symbol))
-    for day in days:
+    for date in dates:
       path = "data/spot/daily/trades/{}/".format(symbol.upper())
-      file_name = "{}-trades-{}.zip".format(symbol.upper(), day)
+      file_name = "{}-trades-{}.zip".format(symbol.upper(), date)
       download_file(path, file_name)
 
       if checksum == 1:
         checksum_path = "data/spot/daily/trades/{}/".format(symbol.upper())
-        checksum_file_name = "{}-trades-{}.zip.CHECKSUM".format(symbol.upper(), day)
+        checksum_file_name = "{}-trades-{}.zip.CHECKSUM".format(symbol.upper(), date)
         download_file(checksum_path, checksum_file_name)
 
     current += 1
@@ -133,10 +148,10 @@ if __name__ == "__main__":
       print("fetching {} symbols from exchange".format(num_symbols))
 
     download_monthly_trades(symbols, num_symbols, args.years, args.months, args.checksum)
-    if args.days:
-      days = args.days
+    if args.dates:
+      dates = args.dates
     else:
-      days = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
-      days = [day.strftime("%Y-%m-%d") for day in days]
-    download_daily_trades(symbols, num_symbols, days, args.checksum)
+      dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
+      dates = [date.strftime("%Y-%m-%d") for date in dates]
+    download_daily_trades(symbols, num_symbols, dates, args.checksum)
     
