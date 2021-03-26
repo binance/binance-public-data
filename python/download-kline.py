@@ -154,11 +154,12 @@ if __name__ == "__main__":
       symbols = args.symbols
       num_symbols = len(symbols)
 
-    download_monthly_klines(symbols, num_symbols, args.intervals, args.years, args.months, args.checksum)
+    
     if args.dates:
       dates = args.dates
     else:
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
+      download_monthly_klines(symbols, num_symbols, args.intervals, args.years, args.months, args.checksum)
     download_daily_klines(symbols, num_symbols, args.intervals, dates, args.checksum)
     

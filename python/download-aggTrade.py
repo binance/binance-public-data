@@ -147,11 +147,11 @@ if __name__ == "__main__":
       num_symbols = len(symbols)
       print("fetching {} symbols from exchange".format(num_symbols))
 
-    download_monthly_aggTrades(symbols, num_symbols, args.years, args.months, args.checksum)
     if args.dates:
       dates = args.dates
     else:
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
+      download_monthly_aggTrades(symbols, num_symbols, args.years, args.months, args.checksum)
     download_daily_aggTrades(symbols, num_symbols, dates, args.checksum)
     
