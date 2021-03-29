@@ -83,7 +83,7 @@ We will expand this section with more methods in the future.
 There are additional helper scripts both in python and shell in their respective folders of this repository.
 
 ## CHECKSUM
-Each zip file has a `.CHECKSUM` file together in the same folder to verify data integrity. 
+Each zip file has a `.CHECKSUM` file together in the same folder to verify data integrity.
 
 To Check:
 

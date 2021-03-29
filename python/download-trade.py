@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """
-  script to download klines.
+  script to download trades.
   set the absoluate path destination folder for STORE_DIRECTORY, and run
 
-  e.g. STORE_DIRECTORY=/data/ ./download-kline.py
+  e.g. STORE_DIRECTORY=/data/ ./download-trade.py
 
 """
 
@@ -18,8 +18,6 @@ import pandas as pd
 
 
 YEARS = ['2017', '2018', '2019', '2020', '2021']
-INTERVALS = ["1m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1mo"]
-DAILY_INTERVALS = ["1m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d"]
 MONTHS = list(range(1,13))
 MAX_DAYS = 35
 
@@ -80,19 +78,16 @@ def match_date_regex(arg_value, pat=re.compile(r'\d{4}-\d{2}-\d{2}')):
   return arg_value
 
 def get_parser():
-    parser = ArgumentParser(description=("This is a script to download historical kline data"), formatter_class=RawTextHelpFormatter)
+    parser = ArgumentParser(description=("This is a script to download historical trades data"), formatter_class=RawTextHelpFormatter)
     parser.add_argument(
         '-s', dest='symbols', nargs='+',
         help='single symbol or multiple symbols separated by space')
     parser.add_argument(
-        '-i', dest='intervals', default=INTERVALS, nargs='+', choices=INTERVALS,
-        help='single kline interval or multiple intervals separated by space\n-i 1m 1w means to download klines interval of 1minute and 1week')
-    parser.add_argument(
         '-y', dest='years', default=YEARS, nargs='+', choices=YEARS,
-        help='single year or multiple years separated by space\n-y 2019 2021 means to download klines from 2019 and 2021')
+        help='single year or multiple years separated by space\n-y 2019 2021 means to download trades from 2019 and 2021')
     parser.add_argument(
         '-m', dest='months', default=MONTHS,  nargs='+', type=int, choices=MONTHS,
-        help='single month or multiple months separated by space\n-m 2 12 means to download klines from feb and dec')
+        help='single month or multiple months separated by space\n-m 2 12 means to download trades from feb and dec')
     parser.add_argument(
         '-d', dest='dates', nargs='+', type=match_date_regex,
         help='date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\nDownload past 35 days if no argument is parsed')
@@ -102,43 +97,40 @@ def get_parser():
 
     return parser
 
-def download_monthly_klines(symbols, num_symbols, intervals, years, months, checksum):
+def download_monthly_trades(symbols, num_symbols, years, months, checksum):
   current = 0
   print("Found {} symbols".format(num_symbols))
 
   for symbol in symbols:
-    print("[{}/{}] - start download monthly {} klines ".format(current+1, num_symbols, symbol))
-    for interval in args.intervals:
-      for year in args.years:
-        for month in args.months:
-          path = "data/spot/monthly/klines/{}/{}/".format(symbol.upper(), interval)
-          file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
-          download_file(path, file_name)
-
-          if checksum == 1:
-            checksum_path = "data/spot/monthly/klines/{}/{}/".format(symbol.upper(), interval)
-            checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
-            download_file(checksum_path, checksum_file_name)
-    
-    current += 1
-
-def download_daily_klines(symbols, num_symbols, intervals, dates, checksum):
-  current = 0
-  #Get valid intervals for daily
-  intervals = list(set(intervals) & set(DAILY_INTERVALS))
-  print("Found {} symbols".format(num_symbols))
-  for symbol in symbols:
-    print("[{}/{}] - start download daily {} klines ".format(current+1, num_symbols, symbol))
-    for interval in intervals:
-      for date in dates:
-        path = "data/spot/daily/klines/{}/{}/".format(symbol.upper(), interval)
-        file_name = "{}-{}-{}.zip".format(symbol.upper(), interval, date)
+    print("[{}/{}] - start download monthly {} trades ".format(current+1, num_symbols, symbol))
+    for year in args.years:
+      for month in args.months:
+        path = "data/spot/monthly/trades/{}/".format(symbol.upper())
+        file_name = "{}-trades-{}-{}.zip".format(symbol.upper(), year, '{:02d}'.format(month))
         download_file(path, file_name)
 
         if checksum == 1:
-          checksum_path = "data/spot/daily/klines/{}/{}/".format(symbol.upper(), interval)
-          checksum_file_name = "{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, date)
+          checksum_path = "data/spot/monthly/trades/{}/".format(symbol.upper())
+          checksum_file_name = "{}-trades-{}-{}.zip.CHECKSUM".format(symbol.upper(), year, '{:02d}'.format(month))
           download_file(checksum_path, checksum_file_name)
+    
+    current += 1
+
+def download_daily_trades(symbols, num_symbols, dates, checksum):
+  current = 0
+  print("Found {} symbols".format(num_symbols))
+
+  for symbol in symbols:
+    print("[{}/{}] - start download daily {} trades ".format(current+1, num_symbols, symbol))
+    for date in dates:
+      path = "data/spot/daily/trades/{}/".format(symbol.upper())
+      file_name = "{}-trades-{}.zip".format(symbol.upper(), date)
+      download_file(path, file_name)
+
+      if checksum == 1:
+        checksum_path = "data/spot/daily/trades/{}/".format(symbol.upper())
+        checksum_file_name = "{}-trades-{}.zip.CHECKSUM".format(symbol.upper(), date)
+        download_file(checksum_path, checksum_file_name)
 
     current += 1
 
@@ -153,13 +145,13 @@ if __name__ == "__main__":
     else:
       symbols = args.symbols
       num_symbols = len(symbols)
+      print("fetching {} symbols from exchange".format(num_symbols))
 
-    
     if args.dates:
       dates = args.dates
     else:
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
-      download_monthly_klines(symbols, num_symbols, args.intervals, args.years, args.months, args.checksum)
-    download_daily_klines(symbols, num_symbols, args.intervals, dates, args.checksum)
+      download_monthly_trades(symbols, num_symbols, args.years, args.months, args.checksum)
+    download_daily_trades(symbols, num_symbols, dates, args.checksum)
     
