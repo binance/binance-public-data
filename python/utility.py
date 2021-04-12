@@ -80,17 +80,6 @@ def match_date_regex(arg_value, pat=re.compile(r'\d{4}-\d{2}-\d{2}')):
     raise ArgumentTypeError
   return arg_value
 
-def match_range_regex(arg_value, pat=re.compile(r'\d{4}-\d{2}-\d{2} \d{4}-\d{2}-\d{2}')):
-  start_date, end_date = get_start_end_date_objects(arg_value)
-
-  if start_date > end_date:
-    raise Exception("start date cannot be later than end date!")
-
-  if not pat.match(arg_value):
-    raise ArgumentTypeError
-  
-  return arg_value
-
 def check_directory(arg_value):
   if os.path.exists(arg_value):
     while True:
@@ -120,8 +109,11 @@ def get_parser(parser_type):
       '-d', dest='dates', nargs='+', type=match_date_regex,
       help='Date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\ndownload past 35 days if no argument is parsed')
   parser.add_argument(
-      '-range', dest='range', type=match_range_regex,
-      help='Range of dates to download in [YYYY-MM-DD] format\nstart and end date separated by space\narguments should be parsed with single or double quotes')
+      '-startDate', dest='startDate', type=match_date_regex,
+      help='Starting date to download in [YYYY-MM-DD] format')
+  parser.add_argument(
+      '-endDate', dest='endDate', type=match_date_regex,
+      help='Ending date to download in [YYYY-MM-DD] format')
   parser.add_argument(
       '-folder', dest='folder', type=check_directory,
       help='Directory to store the downloaded data')
