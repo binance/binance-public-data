@@ -6,7 +6,10 @@
 
   e.g. STORE_DIRECTORY=/data/ ./download-kline.py
 
+
 """
+/RUN
+STORE=DIRECTORY/data.binance.vision/?prefix=data/spot/monthly/klines/
 import sys
 from datetime import *
 import pandas as pd
@@ -108,4 +111,5 @@ if __name__ == "__main__":
       dates = [date.strftime("%Y-%m-%d") for date in dates]
       download_monthly_klines(symbols, num_symbols, args.intervals, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
     download_daily_klines(symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
+    /api/v3/klines
     
