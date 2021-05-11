@@ -1,8 +1,13 @@
-# Running the scripts
+## Installing the dependencies
+
+`pip install -r requirements.txt`
+
+## Running the scripts
 
 `export STORE_DIRECTORY=<your desired path>`
 
-The downloaded files will be stored in the directory set above.
+This will configure the default storing directory of the downloaded data. This can be 
+overwritten <br/> by setting an argument(example given below). 
 
 `python3 download-kline.py` <br/>
 `python3 download-trade.py` <br/>
