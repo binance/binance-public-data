@@ -14,7 +14,7 @@ from enums import *
 from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object
 
 
-def download_monthly_klines(symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
+def download_monthly_klines(type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
   current = 0
   date_range = None
 
@@ -40,18 +40,18 @@ def download_monthly_klines(symbols, num_symbols, intervals, years, months, star
         for month in months:
           current_date = convert_to_date_object('{}-{}-01'.format(year, month))
           if current_date >= start_date and current_date <= end_date:
-            path = "data/spot/monthly/klines/{}/{}/".format(symbol.upper(), interval)
+            path = "data/{}/monthly/klines/{}/{}/".format(type, symbol.upper(), interval)
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
             download_file(path, file_name, date_range, folder)
 
             if checksum == 1:
-              checksum_path = "data/spot/monthly/klines/{}/{}/".format(symbol.upper(), interval)
+              checksum_path = "data/{}/monthly/klines/{}/{}/".format(type, symbol.upper(), interval)
               checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
               download_file(checksum_path, checksum_file_name, date_range, folder)
     
     current += 1
 
-def download_daily_klines(symbols, num_symbols, intervals, dates, start_date, end_date, folder, checksum):
+def download_daily_klines(type, symbols, num_symbols, intervals, dates, start_date, end_date, folder, checksum):
   current = 0
   date_range = None
 
@@ -78,12 +78,12 @@ def download_daily_klines(symbols, num_symbols, intervals, dates, start_date, en
       for date in dates:
         current_date = convert_to_date_object(date)
         if current_date >= start_date and current_date <= end_date:
-          path = "data/spot/daily/klines/{}/{}/".format(symbol.upper(), interval)
+          path = "data/{}/daily/klines/{}/{}/".format(type, symbol.upper(), interval)
           file_name = "{}-{}-{}.zip".format(symbol.upper(), interval, date)
           download_file(path, file_name, date_range, folder)
 
           if checksum == 1:
-            checksum_path = "data/spot/daily/klines/{}/{}/".format(symbol.upper(), interval)
+            checksum_path = "data/{}/daily/klines/{}/{}/".format(type, symbol.upper(), interval)
             checksum_file_name = "{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, date)
             download_file(checksum_path, checksum_file_name, date_range, folder)
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     if not args.symbols:
       print("fetching all symbols from exchange")
-      symbols = get_all_symbols()
+      symbols = get_all_symbols(args.type)
       num_symbols = len(symbols)
     else:
       symbols = args.symbols
@@ -106,6 +106,6 @@ if __name__ == "__main__":
     else:
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
-      download_monthly_klines(symbols, num_symbols, args.intervals, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
-    download_daily_klines(symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
+      download_monthly_klines(args.type, symbols, num_symbols, args.intervals, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
+    download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
     
