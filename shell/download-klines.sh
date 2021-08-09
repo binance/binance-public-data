@@ -15,7 +15,7 @@ for symbol in ${symbols[@]}; do
       for month in ${months[@]}; do
         url="${baseurl}/${symbol}/${interval}/${symbol}-${interval}-${year}-${month}.zip"
         response=$(wget --server-response -q ${url} 2>&1 | awk 'NR==1{print $2}')
-        if [ ${response} == '403' ]; then
+        if [ ${response} == '404' ]; then
           echo "File not exist: ${url}" 
         else
           echo "downloaded: ${url}"
