@@ -15,7 +15,7 @@ import pandas as pd
 from enums import *
 from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object
 
-def download_monthly_aggTrades(symbols, num_symbols, years, months, start_date, end_date, folder, checksum):
+def download_monthly_aggTrades(trading_type, symbols, num_symbols, years, months, start_date, end_date, folder, checksum):
   current = 0
   date_range = None
 
@@ -40,18 +40,24 @@ def download_monthly_aggTrades(symbols, num_symbols, years, months, start_date, 
       for month in months:
         current_date = convert_to_date_object('{}-{}-01'.format(year, month))
         if current_date >= start_date and current_date <= end_date:
-          path = "data/spot/monthly/aggTrades/{}/".format(symbol.upper())
+          if trading_type != 'spot':
+            path = "data/futures/{}/monthly/aggTrades/{}/".format(trading_type, symbol.upper())
+          else:
+            path = "data/{}/monthly/aggTrades/{}/".format(trading_type, symbol.upper())
           file_name = "{}-aggTrades-{}-{}.zip".format(symbol.upper(), year, '{:02d}'.format(month))
           download_file(path, file_name, date_range, folder)
 
           if checksum == 1:
-            checksum_path = "data/spot/monthly/aggTrades/{}/".format(symbol.upper())
+            if trading_type != 'spot':
+              checksum_path = "data/futures/{}/monthly/aggTrades/{}/".format(trading_type, symbol.upper())
+            else:
+              checksum_path = "data/{}/monthly/aggTrades/{}/".format(trading_type, symbol.upper())
             checksum_file_name = "{}-aggTrades-{}-{}.zip.CHECKSUM".format(symbol.upper(), year, '{:02d}'.format(month))
             download_file(checksum_path, checksum_file_name, date_range, folder)
     
     current += 1
 
-def download_daily_aggTrades(symbols, num_symbols, dates, start_date, end_date, folder, checksum):
+def download_daily_aggTrades(trading_type, symbols, num_symbols, dates, start_date, end_date, folder, checksum):
   current = 0
   date_range = None
 
@@ -75,12 +81,18 @@ def download_daily_aggTrades(symbols, num_symbols, dates, start_date, end_date, 
     for date in dates:
       current_date = convert_to_date_object(date)
       if current_date >= start_date and current_date <= end_date:
-        path = "data/spot/daily/aggTrades/{}/".format(symbol.upper())
+        if trading_type != 'spot':
+          path = "data/futures/{}/daily/aggTrades/{}/".format(trading_type, symbol.upper())
+        else:
+          path = "data/{}/daily/aggTrades/{}/".format(trading_type, symbol.upper())
         file_name = "{}-aggTrades-{}.zip".format(symbol.upper(), date)
         download_file(path, file_name, date_range, folder)
 
         if checksum == 1:
-          checksum_path = "data/spot/daily/aggTrades/{}/".format(symbol.upper())
+          if trading_type != 'spot':
+            checksum_path = "data/futures/{}/daily/aggTrades/{}/".format(trading_type, symbol.upper())
+          else:
+            checksum_path = "data/{}/daily/aggTrades/{}/".format(trading_type, symbol.upper())
           checksum_file_name = "{}-aggTrades-{}.zip.CHECKSUM".format(symbol.upper(), date)
           download_file(checksum_path, checksum_file_name, date_range, folder)
 
@@ -92,7 +104,7 @@ if __name__ == "__main__":
 
     if not args.symbols:
       print("fetching all symbols from exchange")
-      symbols = get_all_symbols()
+      symbols = get_all_symbols(args.type)
       num_symbols = len(symbols)
     else:
       symbols = args.symbols
@@ -104,6 +116,6 @@ if __name__ == "__main__":
     else:
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
-      download_monthly_aggTrades(symbols, num_symbols, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
-    download_daily_aggTrades(symbols, num_symbols, dates, args.startDate, args.endDate, args.folder, args.checksum)
+      download_monthly_aggTrades(args.type, symbols, num_symbols, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
+    download_daily_aggTrades(args.type, symbols, num_symbols, dates, args.startDate, args.endDate, args.folder, args.checksum)
     
