@@ -12,7 +12,9 @@ import sys
 from datetime import *
 import pandas as pd
 from enums import *
-from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object
+from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
+  get_path
+
 
 def download_monthly_trades(trading_type, symbols, num_symbols, years, months, start_date, end_date, folder, checksum):
   current = 0
@@ -39,18 +41,12 @@ def download_monthly_trades(trading_type, symbols, num_symbols, years, months, s
       for month in months:
         current_date = convert_to_date_object('{}-{}-01'.format(year, month))
         if current_date >= start_date and current_date <= end_date:
-          if trading_type != 'spot':
-            path = "data/futures/{}/monthly/trades/{}/".format(trading_type, symbol.upper())
-          else:
-            path = "data/{}/monthly/trades/{}/".format(trading_type, symbol.upper())
+          path = get_path(trading_type, "trades", "monthly", symbol)
           file_name = "{}-trades-{}-{}.zip".format(symbol.upper(), year, '{:02d}'.format(month))
           download_file(path, file_name, date_range, folder)
 
           if checksum == 1:
-            if trading_type != 'spot':
-              checksum_path = "data/futures/{}/monthly/trades/{}/".format(trading_type, symbol.upper())
-            else:
-              checksum_path = "data/{}/monthly/trades/{}/".format(trading_type, symbol.upper())
+            checksum_path = get_path(trading_type, "trades", "monthly", symbol)
             checksum_file_name = "{}-trades-{}-{}.zip.CHECKSUM".format(symbol.upper(), year, '{:02d}'.format(month))
             download_file(checksum_path, checksum_file_name, date_range, folder)
     
@@ -80,18 +76,12 @@ def download_daily_trades(trading_type, symbols, num_symbols, dates, start_date,
     for date in dates:
       current_date = convert_to_date_object(date)
       if current_date >= start_date and current_date <= end_date:
-        if trading_type != 'spot':
-          path = "data/futures/{}/daily/trades/{}/".format(trading_type, symbol.upper())
-        else:
-          path = "data/{}/daily/trades/{}/".format(trading_type, symbol.upper())
+        path = get_path(trading_type, "trades", "daily", symbol)
         file_name = "{}-trades-{}.zip".format(symbol.upper(), date)
         download_file(path, file_name, date_range, folder)
 
         if checksum == 1:
-          if trading_type != 'spot':
-            checksum_path = "data/futures/{}/daily/trades/{}/".format(trading_type, symbol.upper())
-          else:
-            checksum_path = "data/{}/daily/trades/{}/".format(trading_type, symbol.upper())
+          checksum_path = get_path(trading_type, "trades", "daily", symbol)
           checksum_file_name = "{}-trades-{}.zip.CHECKSUM".format(symbol.upper(), date)
           download_file(checksum_path, checksum_file_name, date_range, folder)
 

@@ -11,7 +11,8 @@ import sys
 from datetime import *
 import pandas as pd
 from enums import *
-from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object
+from utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
+  get_path
 
 
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
@@ -40,18 +41,12 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
         for month in months:
           current_date = convert_to_date_object('{}-{}-01'.format(year, month))
           if current_date >= start_date and current_date <= end_date:
-            if trading_type != 'spot':
-              path = "data/futures/{}/monthly/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
-            else:
-              path = "data/{}/monthly/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
+            path = get_path(trading_type, "klines", "monthly", symbol, interval)
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
             download_file(path, file_name, date_range, folder)
 
             if checksum == 1:
-              if trading_type != 'spot':
-                checksum_path = "data/futures/{}/monthly/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
-              else:
-                checksum_path = "data/{}/monthly/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
+              checksum_path = get_path(trading_type, "klines", "daily", symbol, interval)
               checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
               download_file(checksum_path, checksum_file_name, date_range, folder)
 
@@ -84,18 +79,12 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, 
       for date in dates:
         current_date = convert_to_date_object(date)
         if current_date >= start_date and current_date <= end_date:
-          if trading_type != 'spot':
-            path = "data/futures/{}/daily/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
-          else:
-            path = "data/{}/daily/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
+          path = get_path(trading_type, "klines", "daily", symbol, interval)
           file_name = "{}-{}-{}.zip".format(symbol.upper(), interval, date)
           download_file(path, file_name, date_range, folder)
 
           if checksum == 1:
-            if trading_type != 'spot':
-              checksum_path = "data/futures/{}/daily/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
-            else:
-              checksum_path = "data/{}/daily/klines/{}/{}/".format(trading_type, symbol.upper(), interval)
+            checksum_path = get_path(trading_type, "klines", "daily", symbol, interval)
             checksum_file_name = "{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, date)
             download_file(checksum_path, checksum_file_name, date_range, folder)
 

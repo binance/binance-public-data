@@ -99,6 +99,19 @@ def check_directory(arg_value):
         break
   return arg_value
 
+def get_path(trading_type, market_data_type, time_period, symbol, interval=None):
+  if trading_type != 'spot':
+    if interval is not None:
+      path = f'data/futures/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
+    else:
+      path = f'data/futures/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/'
+  else:
+    if interval is not None:
+      path = f'data/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
+    else:
+      path = f'data/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/'
+  return path
+
 def get_parser(parser_type):
   parser = ArgumentParser(description=("This is a script to download historical {} data").format(parser_type), formatter_class=RawTextHelpFormatter)
   parser.add_argument(
