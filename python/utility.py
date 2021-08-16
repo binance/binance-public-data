@@ -100,15 +100,13 @@ def check_directory(arg_value):
   return arg_value
 
 def get_path(trading_type, market_data_type, time_period, symbol, interval=None):
-  if trading_type != 'spot':
-    if interval is not None:
+  if trading_type != 'spot' and interval is not None:
       path = f'data/futures/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
-    else:
+  elif trading_type == 'spot' and interval is not None:
+      path = f'data/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
+  elif trading_type != 'spot' and interval is None:
       path = f'data/futures/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/'
   else:
-    if interval is not None:
-      path = f'data/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
-    else:
       path = f'data/{trading_type}/{time_period}/{market_data_type}/{symbol.upper()}/'
   return path
 
