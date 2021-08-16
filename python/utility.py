@@ -17,8 +17,13 @@ def get_destination_dir(file_url, folder=None):
 def get_download_url(file_url):
   return "{}{}".format(BASE_URL, file_url)
 
-def get_all_symbols():
-  response = urllib.request.urlopen("https://api.binance.com/api/v3/exchangeInfo").read()
+def get_all_symbols(type):
+  if type == 'um':
+    response = urllib.request.urlopen("https://fapi.binance.com/fapi/v1/exchangeInfo").read()
+  elif type == 'cm':
+    response = urllib.request.urlopen("https://dapi.binance.com/dapi/v1/exchangeInfo").read()
+  else:
+    response = urllib.request.urlopen("https://api.binance.com/api/v3/exchangeInfo").read()
   return list(map(lambda symbol: symbol['symbol'], json.loads(response)['symbols']))
 
 def download_file(base_path, file_name, date_range=None, folder=None):
@@ -94,6 +99,16 @@ def check_directory(arg_value):
         break
   return arg_value
 
+def get_path(trading_type, market_data_type, time_period, symbol, interval=None):
+  trading_type_path = 'data/spot'
+  if trading_type != 'spot':
+    trading_type_path = f'data/futures/{trading_type}'
+  if interval is not None:
+    path = f'{trading_type_path}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
+  else:
+    path = f'{trading_type_path}/{time_period}/{market_data_type}/{symbol.upper()}/'
+  return path
+
 def get_parser(parser_type):
   parser = ArgumentParser(description=("This is a script to download historical {} data").format(parser_type), formatter_class=RawTextHelpFormatter)
   parser.add_argument(
@@ -120,6 +135,9 @@ def get_parser(parser_type):
   parser.add_argument(
       '-c', dest='checksum', default=0, type=int, choices=[0,1],
       help='1 to download checksum file, default 0')
+  parser.add_argument(
+      '-t', dest='type', default='spot', choices=TRADING_TYPE,
+      help='Valid trading types: {}'.format(TRADING_TYPE))
 
   if parser_type == 'klines':
     parser.add_argument(
