@@ -46,7 +46,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
             download_file(path, file_name, date_range, folder)
 
             if checksum == 1:
-              checksum_path = get_path(trading_type, "klines", "daily", symbol, interval)
+              checksum_path = get_path(trading_type, "klines", "monthly", symbol, interval)
               checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
               download_file(checksum_path, checksum_file_name, date_range, folder)
 
