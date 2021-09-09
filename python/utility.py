@@ -28,6 +28,7 @@ def get_all_symbols(type):
 
 def download_file(base_path, file_name, date_range=None, folder=None):
   download_path = "{}{}".format(base_path, file_name)
+  base_path = base_path.replace("?prefix=", "")
   if folder:
     base_path = os.path.join(folder, base_path)
   if date_range:
@@ -100,9 +101,9 @@ def check_directory(arg_value):
   return arg_value
 
 def get_path(trading_type, market_data_type, time_period, symbol, interval=None):
-  trading_type_path = 'data/spot'
+  trading_type_path = '?prefix=data/spot'
   if trading_type != 'spot':
-    trading_type_path = f'data/futures/{trading_type}'
+    trading_type_path = f'?prefix=data/futures/{trading_type}'
   if interval is not None:
     path = f'{trading_type_path}/{time_period}/{market_data_type}/{symbol.upper()}/{interval}/'
   else:
