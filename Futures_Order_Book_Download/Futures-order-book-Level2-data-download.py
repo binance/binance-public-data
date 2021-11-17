@@ -45,9 +45,9 @@ def post(path, params={}):
     query = urlencode(sign[0]) + "&" + urlencode(sign[1])
     url = "%s?%s" % (path, query)
     header = {"X-MBX-APIKEY": api_key}
-    Result_PostFunction = requests.post(url, headers=header, \
+    resultPostFunction = requests.post(url, headers=header, \
         timeout=30, verify=True)
-    return Result_PostFunction
+    return resultPostFunction
 
 #Function to genarate the download link
 def get(path, params):
@@ -55,34 +55,34 @@ def get(path, params):
     query = urlencode(sign[0]) + "&" + urlencode(sign[1])
     url = "%s?%s" % (path, query)
     header = {"X-MBX-APIKEY": api_key}
-    Result_GetFunction = requests.get(url, headers=header, \
+    resultGetFunction = requests.get(url, headers=header, \
         timeout=30, verify=True)
-    return Result_GetFunction
+    return resultGetFunction
 
 
 timestamp = str(int(1000 * time.time())) # current timestamp which serves as an input for the params variable
 # Specify the four input parameters below:
-params_ToObtainDownloadID = {"symbol": 'ADAUSDT',    #specify the symbol name
+paramsToObtainDownloadID = {"symbol": 'ADAUSDT',    #specify the symbol name
       "startTime": 1635561504914, #specify the starttime
       "endTime": 1635561604914,   #specify the endtime
       "dataType": 'T_DEPTH',      #specify the dataType to be downloaded
       "timestamp": timestamp}
 # call the "post" function to obtain the download ID for the specified symbol,dataType and time range combination
 path = "%s/futuresHistDataId" % S_URL_V1
-result_DownloadID = post(path, params_ToObtainDownloadID)
-print(result_DownloadID)
-print(result_DownloadID.json())
+resultDownloadID = post(path, paramsToObtainDownloadID)
+print(resultDownloadID)
+print(resultDownloadID.json())
 # print the download ID, an example of the output will be like: {'id': 324225}
 
 
-# Replace the id (324225) with the result from "print(result_DownloadID.json())"
-params_ToObtainDownloadLink = {"downloadId": 324225,
+# Replace the id (324225) with the result from "print(resultDownloadID.json())"
+paramsToObtainDownloadLink = {"downloadId": 324225,
            "timestamp": timestamp}
 #call the "get" function to obtain the download link for the spicified symbol,dataType and time range combination
-Path_ToObtainDownloadLink = "%s/downloadLink" % S_URL_V1
-Result_ToBeDownloaded = get(Path_ToObtainDownloadLink, params_ToObtainDownloadLink)
-print(Result_ToBeDownloaded)
-print(Result_ToBeDownloaded.json())
+pathToObtainDownloadLink = "%s/downloadLink" % S_URL_V1
+resultToBeDownloaded = get(pathToObtainDownloadLink, paramsToObtainDownloadLink)
+print(resultToBeDownloaded)
+print(resultToBeDownloaded.json())
 """
 Output will be a link to download the specific data you requested with the specific parameters.
 Sample output will be like the following: {'expirationTime': 1635825806, 'link': 'https://bin-prod-user-rebate-bucket.s3.amazonaws.com/future-data-download/XXX'
