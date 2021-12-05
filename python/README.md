@@ -23,8 +23,8 @@ This will configure the default storing directory of the downloaded data. This c
 overwritten <br/> by setting an argument(example given below). 
 
 `download_kline` <br/>
-`download_trade.py` <br/>
-`download_aggTrade.py` 
+`download_trade` <br/>
+`download_aggTrade` 
 
 Downloads all monthly and daily(for past 35 days) klines/trades/aggTrades of all intervals(applicable to klines only) and symbols.
 
