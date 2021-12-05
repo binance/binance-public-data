@@ -1,6 +1,16 @@
-## Installing the dependencies
+## Installing 
 
-`pip install -r requirements.txt`
+### Installing from PyPi
+The package is not currently published on PyPi
+
+### Installing from your git clone.
+
+Flit is used to build the python package for installation with pip.  Flit will call pip as required.
+
+`pip install flit`
+`flit install`
+
+
 
 ## Running the scripts
 

@@ -1,12 +1,26 @@
 [build-system]
-requires = ["flit_core >=2,<4"]
+requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "binance_public_data"
-author = "binance"
-author-email = "nobody@binance.com"
-home-page = "http://github.com/binance_public_data"
-classifiers = ["License :: OSI Approved :: MIT License"]
-description-file = "README.md"
 
+[project]
+name = "binance_public_data"
+authors = [
+    {name = "binance"},
+]
+ependencies = [
+    "flit_core >=3.5.1",
+    "pandas"]
+
+readme="README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+
+dynamic = ['version', 'description']
+[project.urls]
+Home="http://github.com/binance_public_data"
+
+
+[project.scripts]
+download_kline = "download_kline:main"
