@@ -24,3 +24,5 @@ Home="http://github.com/binance_public_data"
 
 [project.scripts]
 download_kline = "binance_public_data.download_kline:main"
+download_aggTrade = "binance_public_data.download_aggTrade:main"
+download_trade = "binance_public_data.download_trade:main"

@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import *
 import urllib.request
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentTypeError
-from enums import *
+from binance_public_data.enums import *
 
 def get_destination_dir(file_url, folder=None):
   store_directory = os.environ.get('STORE_DIRECTORY')
