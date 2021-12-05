@@ -1,0 +1,12 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "binance_public_data"
+author = "binance"
+author-email = "nobody@binance.com"
+home-page = "http://github.com/binance_public_data"
+classifiers = ["License :: OSI Approved :: MIT License"]
+description-file = "README.md"
+

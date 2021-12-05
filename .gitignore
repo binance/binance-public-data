@@ -1,1 +1,2 @@
 *.zip
+__pycache__/
