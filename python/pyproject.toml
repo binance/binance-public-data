@@ -23,4 +23,4 @@ Home="http://github.com/binance_public_data"
 
 
 [project.scripts]
-download_kline = "download_kline:main"
+download_kline = "binance_public_data.download_kline:main"
