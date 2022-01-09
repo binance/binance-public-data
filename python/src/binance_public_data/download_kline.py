@@ -13,6 +13,14 @@ import pandas as pd
 from binance_public_data.enums import *
 from binance_public_data.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
   get_path
+from pathlib import Path
+
+#columns |Open time|Open|High|Low|Close|Volume|Close time|Quote asset volume|Number of trades|Taker buy base asset volume|Taker buy quote asset volume|Ignore|
+#| -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+#|1601510340000|4.15070000|4.15870000|4.15060000|4.15540000|539.23000000|1601510399999|2240.39860900|13|401.82000000|1669.98121300|0|
+
+_kline_cols=["Open_time","Open","High","CLose","Volume","Close_time","Quote_asset_volume","Number_of_trades","Take_buy_base_asset_volume",\
+    "Taker buy quote asset volume","Ignore"]
 
 
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
@@ -43,12 +51,20 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
           if current_date >= start_date and current_date <= end_date:
             path = get_path(trading_type, "klines", "monthly", symbol, interval)
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
-            download_file(path, file_name, date_range, folder)
+            dl_file = download_file(path, file_name, date_range, folder)
+            print(f"\nReading File {dl_file}\n")
+            df=pd.read_csv(dl_file,names=_kline_cols,index_col=False)
+            ii=pd.to_datetime(df["Open_time"],unit="ms")
 
+            print(f"\ndf\n{df}\nii\n{ii}")
+            
             if checksum == 1:
               checksum_path = get_path(trading_type, "klines", "monthly", symbol, interval)
               checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
               download_file(checksum_path, checksum_file_name, date_range, folder)
+            
+          
+  
 
     current += 1
 
@@ -81,7 +97,7 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, 
         if current_date >= start_date and current_date <= end_date:
           path = get_path(trading_type, "klines", "daily", symbol, interval)
           file_name = "{}-{}-{}.zip".format(symbol.upper(), interval, date)
-          download_file(path, file_name, date_range, folder)
+          dl_file = download_file(path, file_name, date_range, folder)
 
           if checksum == 1:
             checksum_path = get_path(trading_type, "klines", "daily", symbol, interval)

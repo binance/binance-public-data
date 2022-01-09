@@ -38,7 +38,7 @@ def download_file(base_path, file_name, date_range=None, folder=None):
 
   if os.path.exists(save_path):
     print("\nfile already exists! {}".format(save_path))
-    return
+    return save_path
   
   # make the directory
   if not os.path.exists(base_path):
@@ -68,6 +68,7 @@ def download_file(base_path, file_name, date_range=None, folder=None):
   except urllib.error.HTTPError:
     print("\nFile not found: {}".format(download_url))
     pass
+  return save_path
 
 def convert_to_date_object(d):
   year, month, day = [int(x) for x in d.split('-')]
