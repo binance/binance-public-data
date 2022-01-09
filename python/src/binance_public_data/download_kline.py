@@ -19,7 +19,7 @@ from pathlib import Path
 #| -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
 #|1601510340000|4.15070000|4.15870000|4.15060000|4.15540000|539.23000000|1601510399999|2240.39860900|13|401.82000000|1669.98121300|0|
 
-_kline_cols=["Open_time","Open","High","CLose","Volume","Close_time","Quote_asset_volume","Number_of_trades","Take_buy_base_asset_volume",\
+_kline_cols=["Open_time_ms","Open","High","Low","Close","Volume","Close_time_ms","Quote_asset_volume","Number_of_trades","Take_buy_base_asset_volume",\
     "Taker buy quote asset volume","Ignore"]
 
 
@@ -45,6 +45,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
   for symbol in symbols:
     print("[{}/{}] - start download monthly {} klines ".format(current+1, num_symbols, symbol))
     for interval in intervals:
+      interval_frames=[]
       for year in years:
         for month in months:
           current_date = convert_to_date_object('{}-{}-01'.format(year, month))
@@ -52,19 +53,27 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
             path = get_path(trading_type, "klines", "monthly", symbol, interval)
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
             dl_file = download_file(path, file_name, date_range, folder)
-            print(f"\nReading File {dl_file}\n")
-            df=pd.read_csv(dl_file,names=_kline_cols,index_col=False)
-            ii=pd.to_datetime(df["Open_time"],unit="ms")
-            df.set_index(ii)
+#            print(f"\nReading File {dl_file}\n")
+            df=pd.read_csv(dl_file,names=_kline_cols,index_col=None)
+            for col in ["Open_time","Close_time"]:
+                df[col]=pd.to_datetime(df[col+"_ms"],unit="ms")
+            df2=df[["Open_time","Close_time","Open_time_ms","Close_time_ms"]]
+            df.set_index("Open_time",inplace=True)
+          
+ #           print(f"\ndf2\n{df2}")
+            interval_frames.append(df) 
 
-            print(f"\ndf\n{df}\nii\n{ii}")
+  #          print(f"\ndf index \n{df.index}\ndf columns {df.columns}")
             
             if checksum == 1:
               checksum_path = get_path(trading_type, "klines", "monthly", symbol, interval)
               checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
               download_file(checksum_path, checksum_file_name, date_range, folder)
             
-          
+      kline_df_interval=pd.concat(interval_frames)
+      fn = f"{symbol}_{interval}"
+      print(f"\nInterval {interval} fn {fn}")
+      #print(f"\nklines\n{kline_df_interval} for interval")
   
 
     current += 1
@@ -125,7 +134,7 @@ def main():
       dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
       download_monthly_klines(args.type, symbols, num_symbols, args.intervals, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
-    download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
+    #download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
 
 if __name__ == "__main__":
     main()
