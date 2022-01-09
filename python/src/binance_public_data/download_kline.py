@@ -11,7 +11,7 @@ import sys
 from datetime import *
 import pandas as pd
 from binance_public_data.enums import *
-from binance_public_data.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
+from binance_public_data.utility import download_file, get_all_symbols, get_destination_dir, get_parser, get_start_end_date_objects, convert_to_date_object, \
   get_path
 from pathlib import Path
 
@@ -72,6 +72,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
             
       kline_df_interval=pd.concat(interval_frames)
       fn = f"{symbol}_{interval}"
+      dir=get_destination_dir(folder)
       print(f"\nInterval {interval} fn {fn}")
       #print(f"\nklines\n{kline_df_interval} for interval")
   
