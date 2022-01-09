@@ -55,6 +55,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
             print(f"\nReading File {dl_file}\n")
             df=pd.read_csv(dl_file,names=_kline_cols,index_col=False)
             ii=pd.to_datetime(df["Open_time"],unit="ms")
+            df.set_index(ii)
 
             print(f"\ndf\n{df}\nii\n{ii}")
             
