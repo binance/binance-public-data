@@ -72,6 +72,8 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                             df2 = df[["Open_time", "Close_time",
                                       "Open_time_ms", "Close_time_ms"]]
                             df.set_index("Open_time", inplace=True)
+                            df["Interval"]=interval
+                            df["Symbol"]=symbol
 
                             interval_frames.append(df)
 
