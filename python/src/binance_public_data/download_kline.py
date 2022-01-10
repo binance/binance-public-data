@@ -22,6 +22,10 @@ from pathlib import Path
 _kline_cols=["Open_time_ms","Open","High","Low","Close","Volume","Close_time_ms","Quote_asset_volume","Number_of_trades","Take_buy_base_asset_volume",\
     "Taker buy quote asset volume","Ignore"]
 
+#for reoordering after we add interval and symbol in.  Open_time is not in the  list because it is the index.
+_ordered_cols=["Symbol","Interval","Close_time","Open","High","Low","Close","Volume","Quote_asset_volume","Number_of_trades","Take_buy_base_asset_volume",\
+    "Taker buy quote asset volume","Ignore","Open_time_ms","Close_time_ms"]
+
 
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
   current = 0
@@ -54,27 +58,39 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
             file_name = "{}-{}-{}-{}.zip".format(symbol.upper(), interval, year, '{:02d}'.format(month))
             dl_file = download_file(path, file_name, date_range, folder)
 #            print(f"\nReading File {dl_file}\n")
-            df=pd.read_csv(dl_file,names=_kline_cols,index_col=None)
-            for col in ["Open_time","Close_time"]:
-                df[col]=pd.to_datetime(df[col+"_ms"],unit="ms")
-            df2=df[["Open_time","Close_time","Open_time_ms","Close_time_ms"]]
-            df.set_index("Open_time",inplace=True)
-          
- #           print(f"\ndf2\n{df2}")
-            interval_frames.append(df) 
+            try:      #ignore any exceptions that happen here, probably means there is no data for the interval.
+              df=pd.read_csv(dl_file,names=_kline_cols,index_col=None)
+              for col in ["Open_time","Close_time"]:
+                  df[col]=pd.to_datetime(df[col+"_ms"],unit="ms")
+              df2=df[["Open_time","Close_time","Open_time_ms","Close_time_ms"]]
+              df.set_index("Open_time",inplace=True)
 
-  #          print(f"\ndf index \n{df.index}\ndf columns {df.columns}")
+              interval_frames.append(df) 
+
             
-            if checksum == 1:
-              checksum_path = get_path(trading_type, "klines", "monthly", symbol, interval)
-              checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
-              download_file(checksum_path, checksum_file_name, date_range, folder)
-            
-      kline_df_interval=pd.concat(interval_frames)
-      fn = f"{symbol}_{interval}"
-      dir=get_destination_dir(folder)
-      print(f"\nInterval {interval} fn {fn}")
-      #print(f"\nklines\n{kline_df_interval} for interval")
+              if checksum == 1:
+                checksum_path = get_path(trading_type, "klines", "monthly", symbol, interval)
+                checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(symbol.upper(), interval, year, '{:02d}'.format(month))
+                download_file(checksum_path, checksum_file_name, date_range, folder)
+            except:
+              pass
+      try:      
+        kline_df_interval=pd.concat(interval_frames)
+        #root name of file without extension
+        fn = f"{symbol}_{interval}"
+        df["Symbol"]=symbol
+        df["Interval"]=interval
+
+        df=df.reindex(columns=_ordered_cols)
+        df.to_pickle(fn+".pkl")
+        df.to_parquet(fn+".parquet.gzip",compression='gzip')
+        df.to_csv(fn+".csv")
+
+        print(f"\nInterval {interval} fn {fn}")
+        print(f"\ndf:\n{df}")
+        #print(f"\nklines\n{kline_df_interval} for interval")
+      except:
+        print(f"\nno data for {fn}")
   
 
     current += 1
