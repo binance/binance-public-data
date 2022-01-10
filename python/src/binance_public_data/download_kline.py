@@ -23,8 +23,8 @@ _kline_cols = ["Open_time_ms", "Open", "High", "Low", "Close", "Volume", "Close_
                "Taker buy quote asset volume", "Ignore"]
 
 # for reoordering after we add interval and symbol in.  Open_time is not in the  list because it is the index.
-_ordered_cols = ["Symbol", "Interval", "Close_time", "Open", "High", "Low", "Close", "Volume", "Quote_asset_volume", "Number_of_trades", "Take_buy_base_asset_volume",
-                 "Taker buy quote asset volume", "Ignore", "Open_time_ms", "Close_time_ms"]
+_ordered_cols = ["Symbol", "Interval", "Open_time","Close_time", "Open", "High", "Low", "Close", "Volume", "Quote_asset_volume", "Number_of_trades", "Take_buy_base_asset_volume",
+                 "Taker buy quote asset volume", "Ignore"]
 
 
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
@@ -45,12 +45,12 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
         end_date = convert_to_date_object(end_date)
 
     print("Found {} symbols".format(num_symbols))
-    symbol_frames = []
+    interval_frames = []
+
     for symbol in symbols:
         print("[{}/{}] - start download monthly {} klines ".format(current +
               1, num_symbols, symbol))
         for interval in intervals:
-            interval_frames = []
             for year in years:
                 for month in months:
                     current_date = convert_to_date_object(
@@ -71,10 +71,11 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                                     df[col+"_ms"], unit="ms")
                             df2 = df[["Open_time", "Close_time",
                                       "Open_time_ms", "Close_time_ms"]]
-                            df.set_index("Open_time", inplace=True)
+#                            df.set_index("Open_time", inplace=True)
                             df["Interval"]=interval
                             df["Symbol"]=symbol
 
+                            print(f"\ndf\n{df}")
                             interval_frames.append(df)
 
                             if checksum == 1:
@@ -86,31 +87,18 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                                     checksum_path, checksum_file_name, date_range, folder)
                         except:
                             pass
-            try:
-                kline_df_interval = pd.concat(
-                    interval_frames, keys=["Symbol", "Open_time", "Interval"])
-                # root name of file without extension
-                fn = f"{symbol}_{interval}"
-                df["Interval"] = interval
 
-                df = df.reindex(columns=_ordered_cols)
-                df.to_pickle(fn+".pkl")
-                df.to_parquet(fn+".parquet.gzip", compression='gzip')
-                df.to_csv(fn+".csv")
+    try:
 
-                print(f"\nInterval {interval} fn {fn}")
-                print(f"\ndf:\n{df}")
-                #print(f"\nklines\n{kline_df_interval} for interval")
-                symbol_frames.append(df)
-            except:
-                print(f"\nno data for {fn}")
-
-            df_all = pd.concat(symbol_frames)
-            df_all.to_pickle("hi doug.pkl")
-            df_all.to_csv("hi doug.csv")
-            print(f"\nDF ALl {df_all}")
-
-        current += 1
+      df_all = pd.concat(interval_frames,ignore_index=True)
+      df_all = df_all.reindex(columns=_ordered_cols)
+      df_all = df_all.set_index(["Symbol","Interval","Open_time"])
+      df_all.to_pickle("hi doug.pkl")
+      df_all.to_csv("hi doug.csv")
+      print(f"\ndata frame\n{df_all}")
+    except:
+      pass
+    current += 1
 
 
 def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, start_date, end_date, folder, checksum):
