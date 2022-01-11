@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 
 [project]
-name = "binance_public_data"
+name = "binance_pandas_dataframe"
 authors = [
     {name = "binance"},
 ]
