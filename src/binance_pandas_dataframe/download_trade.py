@@ -11,8 +11,8 @@
 import sys
 from datetime import *
 import pandas as pd
-from binance_public_data.enums import *
-from binance_public_data.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
+from binance_pandas_dataframe.enums import *
+from binance_pandas_dataframe.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
   get_path
 
 
