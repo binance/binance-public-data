@@ -1,4 +1,4 @@
 *.zip
 __pycache__/
-python/dist
+dist
 .vscode
