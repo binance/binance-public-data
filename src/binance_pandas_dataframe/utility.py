@@ -145,7 +145,7 @@ def get_parser(parser_type):
       '-i', dest='intervals', default=INTERVALS, nargs='+', choices=INTERVALS,
       help='single kline interval or multiple intervals separated by space\n-i 1m 1w means to download klines interval of 1minute and 1week')
     parser.add_argument(
-      "-o",dest = ofile, nargs="*",
+      "-o",dest = "ofile", nargs="*",
       help = """file or files seperated by spaces.  Use the extension to indicate the type of file desired. 
       .pkl (recommended) — Python Pickle File
        .csv  — Comma Seperated Values
