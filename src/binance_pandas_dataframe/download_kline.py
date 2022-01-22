@@ -48,6 +48,8 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
     print("Found {} symbols".format(num_symbols))
     interval_frames = []
 
+    #current += 1  #perhaps this should go somewhere, something useless from original binance code
+
     for symbol in symbols:
         print("[{}/{}] - start download monthly {} klines ".format(current +
               1, num_symbols, symbol))
@@ -63,6 +65,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                             symbol.upper(), interval, year, '{:02d}'.format(month))
                         dl_file = download_file(
                             path, file_name, date_range, folder)
+                        print(".")
 #            print(f"\nReading File {dl_file}\n")
                         try:  # ignore any exceptions that happen here, probably means there is no data for the interval.
                             df = pd.read_csv(
@@ -76,7 +79,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                             df["Interval"]=interval
                             df["Symbol"]=symbol
 
-                            print(f"\ndf\n{df}")
+#                            print(f"\ndf\n{df}")
                             interval_frames.append(df)
 
                             if checksum == 1:
@@ -89,17 +92,10 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                         except:
                             pass
 
-    try:
-
-      df_all = pd.concat(interval_frames,ignore_index=True)
-      df_all = df_all.reindex(columns=_ordered_cols)
-      df_all = df_all.set_index(["Symbol","Interval","Open_time"])
-      df_all.to_pickle("hi doug.pkl")
-      df_all.to_csv("hi doug.csv")
-      print(f"\ndata frame\n{df_all}")
-    except:
-      pass
-    current += 1
+    df_all = pd.concat(interval_frames,ignore_index=True)
+    df_all = df_all.reindex(columns=_ordered_cols)
+    df_all = df_all.set_index(["Symbol","Interval","Open_time"])
+    return df
 
 
 def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, start_date, end_date, folder, checksum):

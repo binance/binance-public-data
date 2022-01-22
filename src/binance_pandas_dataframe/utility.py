@@ -45,7 +45,7 @@ def download_file(base_path, file_name, date_range=None, folder=None):
   
 
   if os.path.exists(save_path):
-    print("\nfile already exists! {}".format(save_path))
+    #print("\nfile already exists! {}".format(save_path))
     return save_path
   
   # make the directory
@@ -58,11 +58,11 @@ def download_file(base_path, file_name, date_range=None, folder=None):
     length = dl_file.getheader('content-length')
     if length:
       length = int(length)
-      blocksize = max(4096,length//100)
+      blocksize = max( pow(2,16),length//100)
 
     with open(save_path, 'wb') as out_file:
       dl_progress = 0
-      print("\nFile Download: {}".format(save_path))
+      #print("\nFile Download: {}".format(save_path))
       while True:
         buf = dl_file.read(blocksize)   
         if not buf:
@@ -70,11 +70,11 @@ def download_file(base_path, file_name, date_range=None, folder=None):
         dl_progress += len(buf)
         out_file.write(buf)
         done = int(50 * dl_progress / length)
-        sys.stdout.write("\r[%s%s]" % ('#' * done, '.' * (50-done)) )    
-        sys.stdout.flush()
+        #sys.stdout.write("\r[%s%s]" % ('#' * done, '.' * (50-done)) )    
+        #sys.stdout.flush()
 
   except urllib.error.HTTPError:
-    print("\nFile not found: {}".format(download_url))
+    #print("\nFile not found: {}".format(download_url))
     pass
   return save_path
 

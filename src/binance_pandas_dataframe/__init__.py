@@ -1,2 +1,2 @@
-"""Version fo binance_public_data package.  """
+"""binance_pandas_dataframe.    """
 __version__ = "0.2"
