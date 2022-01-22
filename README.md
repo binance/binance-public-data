@@ -18,7 +18,6 @@ Currently only klines work.
 # Installing 
 
 ## Installing from PyPi
-The package is not currently published on PyPi.  When it is the command will be
 `pip install binance_pandas_dataframes`  
 
 ## Installing from your git clone.
@@ -28,9 +27,9 @@ Flit is used to build the python package for installation with pip.  Flit will c
 This is the best way to do it.  In windows, do this from an adminstrator powershell 
 for the symlink permissions.   
 
-`pip install --symlink flit`
+`flit install --symlink`
 
-or you can install it this way, you will have to uninstall with pip and reinstall with flit for every change.
+or you can install it this way, you will have to uninstall with pip and reinstall with flit for every change in a source file.
 `flit install`
 
 
@@ -58,6 +57,7 @@ This will show the arguments that can be parsed to the scripts which can be used
 | Argument        | Explanation |         
 | --------------- | ---------------- |
 | -h              | show help messages| 
+| -a              | All binance symbols.  It might work for you  |  
 | -s              | Single **symbol** or multiple **symbols** separated by space | 
 | -y              | Single **year** or multiple **years** separated by space| 
 | -m              | Single **month** or multiple **months** separated by space | 
