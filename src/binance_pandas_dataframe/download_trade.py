@@ -8,12 +8,13 @@
 
 """
 
+from contextlib import redirect_stderr
 import sys
 from datetime import *
 import pandas as pd
 from binance_pandas_dataframe.enums import *
 from binance_pandas_dataframe.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
-  get_path
+  get_path, redirect_print
 
 
 def download_monthly_trades(trading_type, symbols, num_symbols, years, months, start_date, end_date, folder, checksum):
@@ -88,6 +89,7 @@ def download_daily_trades(trading_type, symbols, num_symbols, dates, start_date,
     current += 1
 
 def main():
+    redirect_print()
     parser = get_parser('trades')
     args = parser.parse_args(sys.argv[1:])
 

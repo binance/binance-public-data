@@ -1,3 +1,4 @@
+from functools import partial
 import os, sys, re, shutil
 import json
 from pathlib import Path
@@ -5,6 +6,12 @@ from datetime import *
 import urllib.request
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentTypeError
 from binance_pandas_dataframe.enums import *
+from functools import partial
+
+def redirect_print():
+  global print
+  print = partial(print,file=sys.stderr)
+
 
 def get_destination_dir(file_url, folder=None):
   store_directory = os.environ.get('STORE_DIRECTORY')
@@ -115,6 +122,10 @@ def get_parser(parser_type):
   parser.add_argument(
       '-s', dest='symbols', nargs='+',
       help='Single symbol or multiple symbols separated by space')
+  parser.add_argument(
+      '-a', dest='all_symbols', nargs='+',
+      help='download all symbols. because you can.  ')
+
   parser.add_argument(
       '-y', dest='years', default=YEARS, nargs='+', choices=YEARS,
       help='Single year or multiple years separated by space\n-y 2019 2021 means to download {} from 2019 and 2021'.format(parser_type))

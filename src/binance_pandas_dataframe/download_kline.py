@@ -12,7 +12,7 @@ from datetime import *
 import pandas as pd
 from binance_pandas_dataframe.enums import *
 from binance_pandas_dataframe.utility import download_file, get_all_symbols, get_destination_dir, get_parser, get_start_end_date_objects, convert_to_date_object, \
-    get_path
+    get_path,redirect_print
 from pathlib import Path
 
 # columns |Open time|Open|High|Low|Close|Volume|Close time|Quote asset volume|Number of trades|Taker buy base asset volume|Taker buy quote asset volume|Ignore|
@@ -148,16 +148,22 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, 
 
 
 def main():
+    redirect_print()
     parser = get_parser('klines')
+    print(f"sys.argv {sys.argv}")
     args = parser.parse_args(sys.argv[1:])
 
-    if not args.symbols:
+    if args.all_symbols:
         print("fetching all symbols from exchange")
         symbols = get_all_symbols(args.type)
         num_symbols = len(symbols)
-    else:
+    elif args.symbols:
         symbols = args.symbols
         num_symbols = len(symbols)
+    else:
+        print("No symbols specified")
+        return 0
+
 
     if args.dates:
         dates = args.dates

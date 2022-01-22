@@ -88,6 +88,7 @@ def download_daily_aggTrades(trading_type, symbols, num_symbols, dates, start_da
 
     current += 1
 def main():
+    redirect_print()
     parser = get_parser('aggTrades')
     args = parser.parse_args(sys.argv[1:])
 

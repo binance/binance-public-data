@@ -8,5 +8,5 @@ MAX_DAYS = 35
 BASE_URL = 'https://data.binance.vision/'
 END_DATE = datetime.date(datetime.now())
 END_YEAR = date.today().year
-YEARS = list(range(START_YEAR, 1+END_YEAR))
+YEARS = [f"{year}" for year in range(START_YEAR, 1+END_YEAR)]
 START_DATE = date(int(START_YEAR), MONTHS[0], 1)
