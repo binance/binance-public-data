@@ -5,12 +5,13 @@ from pathlib import Path
 from datetime import *
 import urllib.request
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentTypeError
-from binance_pandas_dataframe.enums import *
 from functools import partial
-
+import builtins
+from binance_pandas_dataframe.enums import *
 def redirect_print():
-  global print
-  print = partial(print,file=sys.stderr)
+  new_print = partial(print,file=sys.stderr)
+  builtins.print=new_print
+  return new_print
 
 
 def get_destination_dir(file_url, folder=None):
