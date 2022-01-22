@@ -154,7 +154,7 @@ def get_parser(parser_type):
 
   if parser_type == 'klines':
     parser.add_argument(
-      '-i', dest='intervals', default=INTERVALS, nargs='+', choices=INTERVALS,
+      '-i', dest='intervals', nargs='+', choices=INTERVALS,required=True,
       help='single kline interval or multiple intervals separated by space\n-i 1m 1w means to download klines interval of 1minute and 1week')
     parser.add_argument(
       "-o",dest = "ofile", nargs="*",
