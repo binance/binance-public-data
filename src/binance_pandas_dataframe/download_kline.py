@@ -28,28 +28,34 @@ _ordered_cols = ["Symbol", "Interval", "Open_time","Close_time", "Open", "High",
                  "Taker buy quote asset volume", "Ignore"]
 
 
-def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
+def download_monthly_klines(trading_type, symbols, num_symbols, intervals,  start_year, end_year, folder, checksum):
     current = 0
     date_range = None
 
-    if start_date and end_date:
-        date_range = start_date + " " + end_date
+    # if start_date and end_date:
+    #     date_range = start_date + " " + end_date
 
-    if not start_date:
-        start_date = START_DATE
-    else:
-        start_date = convert_to_date_object(start_date)
+    # if not start_date:
+    #     start_date = START_DATE
+    # else:
+    #     start_date = convert_to_date_object(start_date)
 
-    if not end_date:
-        end_date = END_DATE
-    else:
-        end_date = convert_to_date_object(end_date)
+    # if not end_date:
+    #     end_date = END_DATE
+    # else:
+    #     end_date = convert_to_date_object(end_date)
 
     print("Found {} symbols".format(num_symbols))
     interval_frames = []
 
     #current += 1  #perhaps this should go somewhere, something useless from original binance code
 
+    #arrange years in reverse chronological order.
+    print(f"\n start_year {start_year}  {dir(start_year)}")
+    print(f"\n end_year {end_year}  {dir(end_year)}")
+    years=list(range(end_year,start_year-1,-1))
+
+    months=list(range(12,0,-1))
     for symbol in symbols:
         print("[{}/{}] - start download monthly {} klines ".format(current +
               1, num_symbols, symbol))
@@ -58,39 +64,38 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
                 for month in months:
                     current_date = convert_to_date_object(
                         '{}-{}-01'.format(year, month))
-                    if current_date >= start_date and current_date <= end_date:
-                        path = get_path(trading_type, "klines",
-                                        "monthly", symbol, interval)
-                        file_name = "{}-{}-{}-{}.zip".format(
-                            symbol.upper(), interval, year, '{:02d}'.format(month))
-                        dl_file = download_file(
-                            path, file_name, date_range, folder)
-                        print(".")
+                    path = get_path(trading_type, "klines",
+                                    "monthly", symbol, interval)
+                    file_name = "{}-{}-{}-{}.zip".format(
+                        symbol.upper(), interval, year, '{:02d}'.format(month))
+                    dl_file = download_file(
+                        path, file_name, date_range, folder)
+                    print(".")
 #            print(f"\nReading File {dl_file}\n")
-                        try:  # ignore any exceptions that happen here, probably means there is no data for the interval.
-                            df = pd.read_csv(
-                                dl_file, names=_kline_cols, index_col=None)
-                            for col in ["Open_time", "Close_time"]:
-                                df[col] = pd.to_datetime(
-                                    df[col+"_ms"], unit="ms")
-                            df2 = df[["Open_time", "Close_time",
-                                      "Open_time_ms", "Close_time_ms"]]
+                    try:  # ignore any exceptions that happen here, probably means there is no data for the interval.
+                        df = pd.read_csv(
+                            dl_file, names=_kline_cols, index_col=None)
+                        for col in ["Open_time", "Close_time"]:
+                            df[col] = pd.to_datetime(
+                                df[col+"_ms"], unit="ms")
+                        df2 = df[["Open_time", "Close_time",
+                                    "Open_time_ms", "Close_time_ms"]]
 #                            df.set_index("Open_time", inplace=True)
-                            df["Interval"]=interval
-                            df["Symbol"]=symbol
+                        df["Interval"]=interval
+                        df["Symbol"]=symbol
 
 #                            print(f"\ndf\n{df}")
-                            interval_frames.append(df)
+                        interval_frames.append(df)
 
-                            if checksum == 1:
-                                checksum_path = get_path(
-                                    trading_type, "klines", "monthly", symbol, interval)
-                                checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(
-                                    symbol.upper(), interval, year, '{:02d}'.format(month))
-                                download_file(
-                                    checksum_path, checksum_file_name, date_range, folder)
-                        except:
-                            pass
+                        if checksum == 1:
+                            checksum_path = get_path(
+                                trading_type, "klines", "monthly", symbol, interval)
+                            checksum_file_name = "{}-{}-{}-{}.zip.CHECKSUM".format(
+                                symbol.upper(), interval, year, '{:02d}'.format(month))
+                            download_file(
+                                checksum_path, checksum_file_name, date_range, folder)
+                    except:
+                        pass
 
     df_all = pd.concat(interval_frames,ignore_index=True)
     df_all = df_all.reindex(columns=_ordered_cols)
@@ -161,15 +166,21 @@ def main():
         print("No symbols specified")
         return 0
 
+    print(f"\nStart year {args.start_year}")
+    # if args.dates:
+    #     dates = args.dates
+    # else:
+    #     dates = pd.date_range(end=datetime.today(),
+    #                           periods=MAX_DAYS).to_pydatetime().tolist()
+    # dates = [date.strftime("%Y-%m-%d") for date in dates]
 
-    if args.dates:
-        dates = args.dates
-    else:
-        dates = pd.date_range(end=datetime.today(),
-                              periods=MAX_DAYS).to_pydatetime().tolist()
-        dates = [date.strftime("%Y-%m-%d") for date in dates]
-        download_monthly_klines(args.type, symbols, num_symbols, args.intervals, args.years,
-                                args.months, args.startDate, args.endDate, args.folder, args.checksum)
+
+    df_monthly = download_monthly_klines(args.type, symbols, num_symbols, \
+         args.intervals, args.start_year, END_YEAR,args.folder, args.checksum)
+    
+        #download daily klines for the current month
+        #too much trouble to exclude if the current year hasn't been requested.  
+    
     #download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
 
 

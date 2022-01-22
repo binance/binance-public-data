@@ -128,20 +128,27 @@ def get_parser(parser_type):
       help='download all symbols. because you can.  ')
 
   parser.add_argument(
-      '-y', dest='years', default=YEARS, nargs='+', choices=YEARS,
-      help='Single year or multiple years separated by space\n-y 2019 2021 means to download {} from 2019 and 2021'.format(parser_type))
-  parser.add_argument(
-      '-m', dest='months', default=MONTHS,  nargs='+', type=int, choices=MONTHS,
-      help='Single month or multiple months separated by space\n-m 2 12 means to download {} from feb and dec'.format(parser_type))
-  parser.add_argument(
-      '-d', dest='dates', nargs='+', type=match_date_regex,
-      help='Date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\ndownload past 35 days if no argument is parsed')
-  parser.add_argument(
-      '-startDate', dest='startDate', type=match_date_regex,
-      help='Starting date to download in [YYYY-MM-DD] format')
-  parser.add_argument(
-      '-endDate', dest='endDate', type=match_date_regex,
-      help='Ending date to download in [YYYY-MM-DD] format')
+      '-y', dest='start_year', default=START_YEAR, type=int, choices=YEARS,
+      help=f'Single year to start, read all {parser_type} data until today')
+
+
+  #removed as not necessary.
+
+#  parser.add_argument(
+##      '-m', dest='months', default=MONTHS,  nargs='+', type=int, choices=MONTHS,
+#      help='Single month or multiple months separated by space\n-m 2 12 means to download {} from feb and dec'.format(parser_type))
+#  
+#
+#parser.add_argument(
+#    '-d', dest='dates', nargs='+', type=match_date_regex,
+#    help='Date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\ndownload past 35 days if no argument is parsed')
+#  parser.add_argument(
+#      '-startDate', dest='startDate', type=match_date_regex,
+#      help='Starting date to download in [YYYY-MM-DD] format')
+#  parser.add_argument(
+#      '-endDate', dest='endDate', type=match_date_regex,
+#      help='Ending date to download in [YYYY-MM-DD] format')
+
   parser.add_argument(
       '-folder', dest='folder', type=check_directory,
       help='Directory to store the downloaded data')
@@ -158,14 +165,9 @@ def get_parser(parser_type):
       help='single kline interval or multiple intervals separated by space\n-i 1m 1w means to download klines interval of 1minute and 1week')
     parser.add_argument(
       "-o",dest = "ofile", nargs="*",
-      help = """file or files seperated by spaces.  Use the extension to indicate the type of file desired. 
-      .pkl (recommended) — Python Pickle File
-       .csv  — Comma Seperated Values
-       .xslx — excel.  
-       .ftr — feather
-       .json — json
-
-
+      help = """file for pandas dataframe.  Recommend using the .pkl extension.
+                if you want another format for analyzing in R, excel, etc please install
+                pandas_dataframe_convert (pip install pandas_dataframe_convert).        
         """)
 
 
