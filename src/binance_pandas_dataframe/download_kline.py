@@ -27,7 +27,7 @@ _kline_cols = ["Open_time_ms", "Open", "High", "Low", "Close", "Volume", "Close_
                "Taker buy quote asset volume", "Ignore"]
 
 # for reoordering after we add interval and symbol in.  Open_time is not in the  list because it is the index.
-_ordered_cols = ["Symbol", "Interval", "Open_time","Close_time", "Open", "High", "Low", "Close", "Volume", "Quote_asset_volume", "Number_of_trades", "Take_buy_base_asset_volume",
+_ordered_cols = ["Symbol", "Trading_type","Interval", "Open_time","Close_time", "Open", "High", "Low", "Close", "Volume", "Quote_asset_volume", "Number_of_trades", "Take_buy_base_asset_volume",
                  "Taker buy quote asset volume", "Ignore"]
 
 def read_kline_csv(dl_file):
@@ -47,9 +47,10 @@ def read_kline_csv(dl_file):
         # print(f"\nException: f{e}")
         raise e
 
-def add_interval_symbol(df,interval,symbol):
+def add_interval_symbol_type(df,interval,symbol,trading_type):
         df["Interval"]=interval
         df["Symbol"]=symbol
+        df["Trading_type"]=trading_type
         return df
 
      
@@ -96,7 +97,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals,  star
                     dl_file = download_file(
                         path, file_name, date_range, folder)
                     try:  # ignore any exceptions that happen here, probably means there is no data for the interval.
-                        df = add_interval_symbol(read_kline_csv(dl_file),interval,symbol)
+                        df = add_interval_symbol_type(read_kline_csv(dl_file),interval,symbol,trading_type)
  #                       interval_frames.append(df)
                         yield df
 
@@ -136,7 +137,7 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, year, m
                         symbol.upper(), interval, d)
                     dl_file = download_file(
                         path, file_name, date_range, folder)
-                    df = add_interval_symbol(read_kline_csv(dl_file),interval,symbol)
+                    df = add_interval_symbol_type(read_kline_csv(dl_file),interval,symbol,trading_type)
 #                    print(f"\ndf\n{df}")
 #                    interval_frames.append(df)
                     yield df
