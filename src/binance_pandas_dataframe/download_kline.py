@@ -7,6 +7,7 @@
   e.g. STORE_DIRECTORY=/data/ ./download-kline.py
 
 """
+from cmath import e
 import sys
 from datetime import *
 import pandas as pd
@@ -29,18 +30,26 @@ _ordered_cols = ["Symbol", "Interval", "Open_time","Close_time", "Open", "High",
                  "Taker buy quote asset volume", "Ignore"]
 
 def read_kline_csv(dl_file):
-    df = pd.read_csv(
-        dl_file, names=_kline_cols, index_col=None)
-    for col in ["Open_time", "Close_time"]:
-        df[col] = pd.to_datetime(
-            df[col+"_ms"], unit="ms")
-    df2 = df[["Open_time", "Close_time",
-                "Open_time_ms", "Close_time_ms"]]
-#                            df.set_index("Open_time", inplace=True)
-    df["Interval"]=interval
-    df["Symbol"]=symbol
-    return df
+    try:
 
+        df = pd.read_csv(
+            dl_file, names=_kline_cols, index_col=None)
+        for col in ["Open_time", "Close_time"]:
+            df[col] = pd.to_datetime(
+                df[col+"_ms"], unit="ms")
+        df2 = df[["Open_time", "Close_time",
+                    "Open_time_ms", "Close_time_ms"]]
+    #                            df.set_index("Open_time", inplace=True)
+
+        return df
+    except Exception as e:
+        print(f"\nException: f{e}")
+        raise e
+
+def add_interval_symbol(df,interval,symbol):
+        df["Interval"]=interval
+        df["Symbol"]=symbol
+        return df
 
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals,  start_year, end_year, folder, checksum):
     current = 0
@@ -87,7 +96,7 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals,  star
                     print(".")
                     print(f"\nReading File {dl_file}\n")
                     try:  # ignore any exceptions that happen here, probably means there is no data for the interval.
-                        df = read_kline_csv(dl_file)
+                        df = add_interval_symbol(read_kline_csv(dl_file),interval,symbol)
 
                         print(f"\ndf\n{df}")
                         interval_frames.append(df)
@@ -127,8 +136,7 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, year, m
                         symbol.upper(), interval, d)
                     dl_file = download_file(
                         path, file_name, date_range, folder)
-                    df = read_kline_csv(dl_file)
-
+                    df = add_interval_symbol(read_kline_csv(dl_file),interval,symbol)
                     print(f"\ndf\n{df}")
                     interval_frames.append(df)
 
