@@ -9,7 +9,7 @@ authors = [
     {name = "binance"},
 ]
 dependencies = [
-    "flit_core >=3.5.1",
+    "pandas_dataframe_convert",
     "pandas"]
 
 readme="README.md"

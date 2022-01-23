@@ -159,16 +159,24 @@ def get_parser(parser_type):
       '-t', dest='type', default='spot', choices=TRADING_TYPE,
       help='Valid trading types: {}'.format(TRADING_TYPE))
 
+  parser.add_argument(
+      "-o",dest = "ofile",
+      help = """file for pandas dataframe.  Recommend using the .pkl extension.
+                if you want another format for analyzing in R, excel, etc use 
+                dataframe_convert.        
+        """)
+
+  parser.add_argument(
+      "--stdout",dest = "write_stdout",action='store_true',
+      help = """write the dataframe to stdandard output.  usueful if using a shell pipeline.  you can pipe output to 
+      dataframe_convert  if you want a format for use in  excel, R, etc.  
+       """ )
+
   if parser_type == 'klines':
     parser.add_argument(
       '-i', dest='intervals', nargs='+', choices=INTERVALS,required=True,
       help='single kline interval or multiple intervals separated by space\n-i 1m 1w means to download klines interval of 1minute and 1week')
-    parser.add_argument(
-      "-o",dest = "ofile", nargs="*",
-      help = """file for pandas dataframe.  Recommend using the .pkl extension.
-                if you want another format for analyzing in R, excel, etc please install
-                pandas_dataframe_convert (pip install pandas_dataframe_convert).        
-        """)
+    
 
 
     return parser

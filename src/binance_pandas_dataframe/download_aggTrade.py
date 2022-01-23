@@ -12,9 +12,9 @@ import sys
 from argparse import ArgumentParser, RawTextHelpFormatter, ArgumentTypeError
 from datetime import *
 import pandas as pd
-from binance_public_data.enums import *
-from binance_public_data.utility import download_file, get_all_symbols, get_parser, get_start_end_date_objects, convert_to_date_object, \
-  get_path
+from binance_pandas_dataframe.enums import *
+from binance_pandas_dataframe.utility import download_file, get_all_symbols, get_destination_dir, get_parser, get_start_end_date_objects, convert_to_date_object, \
+    get_path,redirect_print
 
 
 def download_monthly_aggTrades(trading_type, symbols, num_symbols, years, months, start_date, end_date, folder, checksum):
@@ -89,6 +89,8 @@ def download_daily_aggTrades(trading_type, symbols, num_symbols, dates, start_da
     current += 1
 def main():
     redirect_print()
+    print("Not implemented")
+    return 3
     parser = get_parser('aggTrades')
     args = parser.parse_args(sys.argv[1:])
 

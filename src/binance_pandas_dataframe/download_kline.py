@@ -12,6 +12,7 @@ import sys
 from datetime import *
 import pandas as pd
 from binance_pandas_dataframe.enums import *
+from pickle import dumps
 
 from binance_pandas_dataframe.utility import download_file, get_all_symbols, get_destination_dir, get_parser, get_start_end_date_objects, convert_to_date_object, \
     get_path,redirect_print
@@ -186,11 +187,19 @@ def main():
 #    print(f"\nMonthly frames {monthly_frames}")
 
 
-    df_all = pd.concat(chain(monthly_frames,daily_frames),ignore_index=True)
-    df_all = df_all.reindex(columns=_ordered_cols)
-    df_all = df_all.set_index(["Symbol","Interval","Open_time"]).sort_index()
+    df_all = pd.concat(chain(monthly_frames,daily_frames),ignore_index=True).reindex(columns=_ordered_cols).set_index(["Symbol","Interval","Open_time"]).sort_index()
 
-    print(f"\ngot he frame \n{df_all}")
+
+    print(f"\ngot the frame \n{df_all}")
+
+    
+    if args.write_stdout:
+        out = dumps(df_all)
+        sys.stdout.buffer.write(out)
+
+    if args.ofile:
+        df_all.to_pickle(args.ofile)
+
     return 0
 
         #download daily klines for the current month

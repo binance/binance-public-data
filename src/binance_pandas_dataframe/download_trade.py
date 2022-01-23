@@ -90,6 +90,8 @@ def download_daily_trades(trading_type, symbols, num_symbols, dates, start_date,
 
 def main():
     redirect_print()
+    print("Not implemented")
+    return 3
     parser = get_parser('trades')
     args = parser.parse_args(sys.argv[1:])
 
