@@ -1,6 +1,7 @@
 # 1 Futures Orderbook Download
 
-This document descrip how to download the futures orderbook level 2 data via API. For historical data on trades, klines and aggtrades (for both Futures and Spot), users can download directly from our public website. Please refer to this page: https://www.binance.com/en/landing/data 
+This document describes how to download the futures orderbook level 2 data via API.
+For historical data on trades, klines and aggtrades (for both Futures and Spot), users can download directly from our public website. Please refer to this page: https://www.binance.com/en/landing/data 
 
 Data update frequency: T+1; normally will be ready at UTC+0 4:00 am.
 
@@ -18,7 +19,7 @@ Three Data types are provided:
 |field|desc|
 |:-----|:-----|
 |symbol|Both COIN-M and USDT-M futures symbol name are supported (queried through different symbol, for example: 'BTCUSDT', 'BTCUSD_200925')|
-|time|Transaction time, or timestamp. From 2020/07/01 to current date. For newly launched symbols , starting from the launch date.|
+|time|Transaction time in timestamp. From 2020/07/01 to current date. For newly launched symbols , starting from the launch date.|
 |first_update_id|-|
 |last_update_id|-|
 |pu|Last_update_id of previous row, to help exam completeness. Only applicable to Coin-Margined futures depth update (not orderbook snapshot).|
