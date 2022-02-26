@@ -20,14 +20,14 @@ from urllib.parse import urlencode
 S_URL_V1 = "https://api.binance.com/sapi/v1"
 
 # Specify the api_key and secret_key with your API Key and secret_key
-api_key = 'your_api_key' 
-secret_key  = 'your_secret_key '
+api_key = "your_api_key"
+secret_key = "your_secret_key "
 
 # Specify the four input parameters below:
-symbol = "ADAUSDT"         # specify the symbol name
+symbol = "ADAUSDT"  # specify the symbol name
 startTime = 1635561504914  # specify the starttime
-endTime = 1635561604914    # specify the endtime
-dataType = "T_DEPTH"       # specify the dataType to be downloaded
+endTime = 1635561604914  # specify the endtime
+dataType = "T_DEPTH"  # specify the dataType to be downloaded
 
 
 # Function to generate the signature
@@ -66,6 +66,7 @@ def get(path, params):
     resultGetFunction = requests.get(url, headers=header, timeout=30, verify=True)
     return resultGetFunction
 
+
 """
 Beginning of the execution.
 
@@ -78,9 +79,11 @@ Copy the link to the browser and download the data. The link would expire after 
 Sample output will be like the following: {'link': 'Link is preparing; please request later. Notice: when date range is very large (across months), we may need hours to generate.'}
 """
 
-timestamp = str(int(1000 * time.time()))  # current timestamp which serves as an input for the params variable
+timestamp = str(
+    int(1000 * time.time())
+)  # current timestamp which serves as an input for the params variable
 paramsToObtainDownloadID = {
-    "symbol": symbol,         
+    "symbol": symbol,
     "startTime": startTime,
     "endTime": endTime,
     "dataType": dataType,
@@ -92,7 +95,7 @@ path = "%s/futuresHistDataId" % S_URL_V1
 resultDownloadID = post(path, paramsToObtainDownloadID)
 print(resultDownloadID)
 downloadID = resultDownloadID.json()["id"]
-print(downloadID) # prints the download ID, example: {'id': 324225}
+print(downloadID)  # prints the download ID, example: {'id': 324225}
 
 
 # Calls the "get" function to obtain the download link for the specified symbol, dataType and time range combination
