@@ -5,7 +5,7 @@ To help users download our public data easily, we've put all Kline, Trade, and A
 
 ## What data is available
 
-We provide both `daily` and `monthly` intervals for each data. `daily` data will be uploaded in the next day, and we start to upload `monthly` data from the begging of next month.
+We provide both `daily` and `monthly` intervals for each data. `daily` data will be uploaded in the next day, and we start to upload `monthly` data from the beginning of next month.
 
 ### SPOT
 
