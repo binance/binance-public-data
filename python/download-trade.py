@@ -103,8 +103,12 @@ if __name__ == "__main__":
     if args.dates:
       dates = args.dates
     else:
-      dates = pd.date_range(end = datetime.today(), periods = MAX_DAYS).to_pydatetime().tolist()
+      period = convert_to_date_object(datetime.today().strftime('%Y-%m-%d')) - convert_to_date_object(
+        PERIOD_START_DATE)
+      dates = pd.date_range(end=datetime.today(), periods=period.days + 1).to_pydatetime().tolist()
       dates = [date.strftime("%Y-%m-%d") for date in dates]
-      download_monthly_trades(args.type, symbols, num_symbols, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
-    download_daily_trades(args.type, symbols, num_symbols, dates, args.startDate, args.endDate, args.folder, args.checksum)
+      if args.skip_monthly == 0:
+        download_monthly_trades(args.type, symbols, num_symbols, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
+    if args.skip_daily == 0:
+      download_daily_trades(args.type, symbols, num_symbols, dates, args.startDate, args.endDate, args.folder, args.checksum)
     

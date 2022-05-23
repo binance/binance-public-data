@@ -1,1 +1,8 @@
 *.zip
+*.swp
+.DS_Store
+.idea/
+*/.DS_Store
+*/.idea/
+*/__pycache__/
+python/data/

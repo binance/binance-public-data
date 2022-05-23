@@ -133,6 +133,12 @@ def get_parser(parser_type):
       '-folder', dest='folder', type=check_directory,
       help='Directory to store the downloaded data')
   parser.add_argument(
+      '-skip-monthly', dest='skip_monthly', default=0, type=int, choices=[0, 1],
+      help='1 to skip downloading of monthly data, default 0')
+  parser.add_argument(
+      '-skip-daily', dest='skip_daily', default=0, type=int, choices=[0, 1],
+      help='1 to skip downloading of daily data, default 0')
+  parser.add_argument(
       '-c', dest='checksum', default=0, type=int, choices=[0,1],
       help='1 to download checksum file, default 0')
   parser.add_argument(
