@@ -43,6 +43,9 @@ This will show the arguments that can be parsed to the scripts which can be used
 | -c              | 1 to download **checksum file**, default 0       | 
 | -i              | single kline **interval** or multiple **intervals** separated by space      |
 | -t              | Trading type: **spot**, **um** (USD-M Futures), **cm** (COIN-M Futures)    |
+
+### Examples 
+
 e.g download Futures BTCUSDT um indexPriceKlines
 `python3 download-indexPriceKlines.py -s BTCUSDT -t um`
 
