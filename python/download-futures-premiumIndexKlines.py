@@ -12,9 +12,9 @@ from datetime import *
 
 import pandas as pd
 
-from enums import MAX_DAYS, START_DATE, END_DATE, DAILY_INTERVALS, FIRST_DAILY_DATE, PERIOD_START_DATE
+from enums import START_DATE, END_DATE, DAILY_INTERVALS, PERIOD_START_DATE
 from utility import download_file, get_all_symbols, get_parser, convert_to_date_object, \
-    get_path
+    get_path, raise_arg_error
 
 
 def download_monthly_premiumIndexKlines(trading_type, symbols, num_symbols, intervals, years, months, start_date,
@@ -100,6 +100,9 @@ def download_daily_premiumIndexKlines(trading_type, symbols, num_symbols, interv
 if __name__ == "__main__":
     parser = get_parser('klines')
     args = parser.parse_args(sys.argv[1:])
+
+    if args.type == 'spot':
+        raise_arg_error('Valid Type: um, cm')
 
     if not args.symbols:
         print("fetching all symbols from exchange")

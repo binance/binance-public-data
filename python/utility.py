@@ -99,6 +99,9 @@ def check_directory(arg_value):
         break
   return arg_value
 
+def raise_arg_error(msg):
+  raise ArgumentTypeError(msg)
+
 def get_path(trading_type, market_data_type, time_period, symbol, interval=None):
   trading_type_path = 'data/spot'
   if trading_type != 'spot':
@@ -142,7 +145,7 @@ def get_parser(parser_type):
       '-c', dest='checksum', default=0, type=int, choices=[0,1],
       help='1 to download checksum file, default 0')
   parser.add_argument(
-      '-t', dest='type', default='spot', choices=TRADING_TYPE,
+      '-t', dest='type', required=True, choices=TRADING_TYPE,
       help='Valid trading types: {}'.format(TRADING_TYPE))
 
   if parser_type == 'klines':
