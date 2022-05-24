@@ -127,7 +127,6 @@ These are the available arguments that can be used when running the scripts.<br>
 
 | Argument        | Explanation | Default | Mandatory |      
 | :---------------: | ---------------- | :----------------: | :----------------: |
-| -h              | show help messages| - | No |
 | -t              | Market type: **um** (USD-M Futures), **cm** (COIN-M Futures)| - | Yes |
 | -s              | Single **symbol** or multiple **symbols** separated by space | All symbols | No |
 | -i              | single kline **interval** or multiple **intervals** separated by space      | All intervals | No |
@@ -140,6 +139,7 @@ These are the available arguments that can be used when running the scripts.<br>
 | -skip-daily     | 1 to skip downloading of daily data | 0 | No |
 | -folder         | **Directory** to store the downloaded data    | Current directory | No |
 | -c              | 1 to download **checksum file** | 0 | No |
+| -h              | show help messages| - | No |
 
 e.g download Futures BTCUSDT USD-M indexPriceKlines
 `python3 download-futures-indexPriceKlines.py -t um -s BTCUSDT`
