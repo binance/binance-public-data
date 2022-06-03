@@ -1,7 +1,7 @@
 # 1 Futures Orderbook Download
 
 This document describes how to download the futures orderbook level 2 data via API.
-For historical data on trades, klines and aggtrades (for both Futures and Spot), users can download directly from our public website. Please refer to this page: https://www.binance.com/en/landing/data 
+For historical data on trades, klines and aggtrades (for both Futures and Spot), users can download directly from our public website. Please refer to this page: https://www.binance.com/en/landing/data  (**Note: You have to click "Apply for it", and fill the form to apply first.**)
 
 Data update frequency: T+1; normally will be ready at UTC+0 4:00 am.
 
