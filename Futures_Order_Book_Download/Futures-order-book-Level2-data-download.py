@@ -21,7 +21,7 @@ S_URL_V1 = "https://api.binance.com/sapi/v1"
 
 # Specify the api_key and secret_key with your API Key and secret_key
 api_key = "your_api_key"
-secret_key = "your_secret_key "
+secret_key = "your_secret_key"
 
 # Specify the four input parameters below:
 symbol = "ADAUSDT"  # specify the symbol name
@@ -92,9 +92,11 @@ paramsToObtainDownloadID = {
 
 # Calls the "post" function to obtain the download ID for the specified symbol, dataType and time range combination
 path = "%s/futuresHistDataId" % S_URL_V1
-resultDownloadID = post(path, paramsToObtainDownloadID)
-print(resultDownloadID)
-downloadID = resultDownloadID.json()["id"]
+
+download_response = post(path, paramsToObtainDownloadID)
+print("response status code: {}".format(download_response.status_code))
+print("response content: {}".format(download_response.content))
+downloadID = download_response.json()["id"]
 print(downloadID)  # prints the download ID, example: {'id': 324225}
 
 
