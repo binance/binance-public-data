@@ -2,7 +2,7 @@
 
 """
   script to download klines.
-  set the absoluate path destination folder for STORE_DIRECTORY, and run
+  set the absolute path destination folder for STORE_DIRECTORY, and run
 
   e.g. STORE_DIRECTORY=/data/ ./download-kline.py
 
