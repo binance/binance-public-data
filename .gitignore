@@ -1,4 +1,5 @@
 *.zip
+!/updates/*.zip
 .DS_Store
 .idea/
 */.DS_Store

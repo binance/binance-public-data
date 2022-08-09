@@ -133,6 +133,16 @@ sha256sum -c BNBUSDT-1m-2021-01.zip.CHECKSUM
 shasum -a 256 -c BNBUSDT-1m-2021-01.zip.CHECKSUM
 ```
 
+### Updates
+
+Archived files may be updated at a later date as a result of recently discovered issues. Below is an exhaustive list of updates performed to the archive, containing the file path for reference, and CHECKSUMs of the replaced file and the replacement file:
+
+| Date | Changelog File | Note |
+| --|--|--|
+| 2022-08-08 | [updates/2022-08-08_kline_updates.zip](updates/2022-08-08_kline_updates.zip) | Fixed inconsistent data|
+| 2022-04-21 | [updates/2022-04-21_aggregate_trade_updates.zip](updates/2022-04-21_aggregate_trade_updates.zip) | Align to the [Spot aggregate trade data change](https://github.com/binance/binance-spot-api-docs/blob/master/CHANGELOG.md#2022-04-12) |
+
+
 
 ## I have an issue/question
 
