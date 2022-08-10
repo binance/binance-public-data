@@ -125,7 +125,7 @@ def get_parser(parser_type):
       help='Single month or multiple months separated by space\n-m 2 12 means to download {} from feb and dec'.format(parser_type))
   parser.add_argument(
       '-d', dest='dates', nargs='+', type=match_date_regex,
-      help='Date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\ndownload past 35 days if no argument is parsed')
+      help='Date to download in [YYYY-MM-DD] format\nsingle date or multiple dates separated by space\ndownload from 2020-01-01 if no argument is parsed')
   parser.add_argument(
       '-startDate', dest='startDate', type=match_date_regex,
       help='Starting date to download in [YYYY-MM-DD] format')
