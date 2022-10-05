@@ -140,8 +140,7 @@ Archived files may be updated at a later date as a result of recently discovered
 | Date | Changelog File | Note |
 | --|--|--|
 | 2022-08-08 | [updates/2022-08-08_kline_updates.zip](updates/2022-08-08_kline_updates.zip) | Fixed inconsistent data|
-| 2022-04-21 | [updates/2022-04-21_aggregate_trade_updates.zip](updates/2022-04-21_aggregate_trade_updates.zip) | Align to the [Spot aggregate trade data change](https://github.com/binance/binance-spot-api-docs/blob/master/
-CHANGELOG.md#2022-04-12) |
+| 2022-04-21 | [updates/2022-04-21_aggregate_trade_updates.zip](updates/2022-04-21_aggregate_trade_updates.zip) | Align to the [Spot aggregate trade data change](https://github.com/binance/binance-spot-api-docs/blob/master/CHANGELOG.md#2022-04-12) |
 | 2022-10-04 | [updates/2022-10-04_aggregate_trade_updates.csv](updates/2022-10-04_aggregate_trade_updates.csv) | |
 
 
