@@ -6,7 +6,7 @@ For historical data on trades, klines and aggtrades (for both Futures and Spot),
 Data update frequency: T+1; normally will be ready at UTC+0 4:00 am.
 
 Three Data types are provided:
-+ T_DEPTH: tick-by-tick order book (level 2). Directly fetched from our api, will have gapes.
++ T_DEPTH: tick-by-tick order book (level 2). Directly fetched from our api, will have gaps.
 + S_DEPTH: order book snapshot (level 2); this is a temp data solution only for BTCUSDT at the moment.
 + T_DEPTH_BACKFILL: tick-by-tick order book (level 2). T_DEPTH backfilled with internal logs. Currently in beta. And has stopped producing since mid-July 2021, resume date TBD.  
 
