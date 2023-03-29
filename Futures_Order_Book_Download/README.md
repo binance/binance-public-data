@@ -49,7 +49,6 @@ For Coin-Margined futures, a small part of the datasets is missing. You can use 
 + 2020.09.27 lost 18 seconds
 + 2020.10.24 lost 121 seconds
 
-For USDT-Margined futures, the datasets are guaranteed to be complete, as they are reproduced from internal logs. You are welcome to compare this to any other collected datasets, and feel free to inform us if there is any difference.
 
 ## 1.2  Level 2 order book snapshot (S_DEPTH)
 Currently only BTCUSDT at around 1s (1000 ms) interval with 20 price levels is supported. A small part of the data is missing, and will be back filled in the future.
