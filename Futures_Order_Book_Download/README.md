@@ -22,7 +22,6 @@ Three Data types are provided:
 |time|Transaction time in timestamp. From 2020/07/01 to current date. For newly launched symbols , starting from the launch date.|
 |first_update_id|-|
 |last_update_id|-|
-|pu|Last_update_id of previous row, to help exam completeness. Only applicable to Coin-Margined futures depth update (not orderbook snapshot).|
 |side|a = ask (SELL order)<br>b = bid (BUY order)</br>|
 |update_type|snap = used for order book snapshot only<br>set = set price level to current qty (not delta)<br>delta = qty change of the price level (delta)</br>|
 |price|-|
