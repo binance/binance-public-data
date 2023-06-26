@@ -86,7 +86,7 @@ Currently only BTCUSDT at around 1s (1000 ms) interval with 20 price levels is s
 
 #### Notes:
 + For bulk data download, it may take hours to generate the download link. 
-+ It is recommended that you request within 1-3 months length each time, especially for tick-level order book data.
++ The range between startTime and endTime has to be smaller than 7 days.
 + For dataType info (available symbol and time range), please refer to part1 "dataset description".
 
 
