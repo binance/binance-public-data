@@ -2,7 +2,7 @@
 
 The website [Binance Data Collection](https://data.binance.vision/) offers easy access for anyone to download Binance's public market data, which is aggregated into `daily` or `monthly` files.
 
-All symbols are supported, with new `daily` data becoming available the next day and new `monthly` data at the beginning of next month.
+All symbols are supported, with new `daily` data becoming available the next day and new `monthly` data at the first monday of the month.
 
 ## Data Information
 
