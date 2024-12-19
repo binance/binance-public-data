@@ -1,5 +1,7 @@
 import os, sys, re, shutil
 import json
+import ssl
+import certifi
 from pathlib import Path
 from datetime import *
 import urllib.request
@@ -45,8 +47,9 @@ def download_file(base_path, file_name, date_range=None, folder=None):
     Path(get_destination_dir(base_path)).mkdir(parents=True, exist_ok=True)
 
   try:
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
     download_url = get_download_url(download_path)
-    dl_file = urllib.request.urlopen(download_url)
+    dl_file = urllib.request.urlopen(download_url, context=ssl_context)
     length = dl_file.getheader('content-length')
     if length:
       length = int(length)
