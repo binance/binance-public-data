@@ -153,6 +153,9 @@ def get_parser(parser_type):
         '-endDate', dest='endDate', type=match_date_regex,
         help='Ending date to download in [YYYY-MM-DD] format')
     parser.add_argument(
+        '-max_workers', dest='max_workers', type=int,
+        help='how many threads to use for downloading')
+    parser.add_argument(
         '-folder', dest='folder', type=check_directory,
         help='Directory to store the downloaded data')
     parser.add_argument(

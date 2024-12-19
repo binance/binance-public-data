@@ -92,7 +92,9 @@ def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years
 #                         download_file(checksum_path, checksum_file_name, date_range, folder)
 #
 #         current += 1
-def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, start_date, end_date, folder, checksum):
+def download_daily_klines(trading_type, symbols, num_symbols,
+                          intervals, dates, start_date, end_date,
+                          folder, checksum, max_workers=10):
     current = 0
     date_range = None
 
@@ -117,9 +119,8 @@ def download_daily_klines(trading_type, symbols, num_symbols, intervals, dates, 
         print("[{}/{}] - start download daily {} klines ".format(current + 1, num_symbols, symbol))
 
         # Create a ThreadPoolExecutor
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = []
-
             for interval in intervals:
                 for date in dates:
                     current_date = convert_to_date_object(date)
@@ -172,6 +173,10 @@ if __name__ == "__main__":
         if args.skip_monthly == 0:
             download_monthly_klines(args.type, symbols, num_symbols, args.intervals, args.years, args.months,
                                     args.startDate, args.endDate, args.folder, args.checksum)
+    if args.max_workers:
+        max_workers = args.max_workers
+    else:
+        max_workers = 10
     if args.skip_daily == 0:
         download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate,
-                              args.folder, args.checksum)
+                              args.folder, args.checksum, max_workers)
