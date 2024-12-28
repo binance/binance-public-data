@@ -1,4 +1,4 @@
-# This is a simple script to download klines by given parameters.
+# This is a simple powershell script to download klines by given parameters for Windows user.
 
 $symbols = @("BNBUSDT", "BTCUSDT") # add symbols here to download
 $intervals = @("1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d", "1w", "1mo")
