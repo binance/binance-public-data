@@ -8,19 +8,21 @@ All symbols are supported, with new `daily` data becoming available the next day
 
 ### SPOT
 
+**Note**: The timestamp for SPOT Data from January 1st 2025 onwards will be in microseconds.
+
 #### AggTrades
 The `aggTrades` files' data is obtained from `/api/v3/aggTrades` API endpoint:
 
 |Aggregate tradeId|Price|Quantity|First tradeId|Last tradeId|Timestamp|Was the buyer the maker|Was the trade the best price match|
 | -- | -- | -- | -- | -- | -- | -- | -- |
-|0|0.20000000|50.00000000|0|0|1608872400000|False|True|
+|0|0.20000000|50.00000000|0|0|1735689600010866|False|True|
 
 #### Klines
 The `klines` files' data is obtained from `/api/v3/klines` API endpoint:
 
 |Open time|Open|High|Low|Close|Volume|Close time|Quote asset volume|Number of trades|Taker buy base asset volume|Taker buy quote asset volume|Ignore|
 | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
-|1601510340000|4.15070000|4.15870000|4.15060000|4.15540000|539.23000000|1601510399999|2240.39860900|13|401.82000000|1669.98121300|0|
+|1735689600000000|4.15070000|4.15870000|4.15060000|4.15540000|539.23000000|1735693199999999|2240.39860900|13|401.82000000|1669.98121300|0|
 
 All kline intervals are supported: 
 - `1s`, `1m`, `3m`, `5m`, `15m`, `30m`, `1h`, `2h`, `4h`, `6h`, `8h`, `12h`, `1d`, `3d`, `1w`, `1mo`.
@@ -31,7 +33,7 @@ The `trades` files' data is obtained from `/api/v3/historicalTrades` API endpoin
 
 |trade Id| price| qty|quoteQty|time|isBuyerMaker|isBestMatch|
 | -- | -- | -- | -- | -- | -- | -- |
-|51175358|17.80180000|5.69000000|101.29224200|1583709433583|True|True|
+|51175358|17.80180000|5.69000000|101.29224200|1735689600010866|True|True|
 
 
 ### FUTURES
@@ -102,7 +104,6 @@ Archived files may be updated at a later date as a result of recently discovered
 | --|--|--|
 | 2022-08-08 | [updates/2022-08-08_kline_updates.zip](updates/2022-08-08_kline_updates.zip) | Fixed inconsistent data|
 | 2022-04-21 | [updates/2022-04-21_aggregate_trade_updates.zip](updates/2022-04-21_aggregate_trade_updates.zip) | Align to the [Spot aggregate trade data change](https://github.com/binance/binance-spot-api-docs/blob/master/CHANGELOG.md#2022-04-12) |
-
 
 
 ## Issue/Question
