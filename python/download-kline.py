@@ -15,6 +15,15 @@ from utility import download_file, get_all_symbols, get_parser, get_start_end_da
   get_path
 
 
+def get_daily_dates(start_date=None, end_date=None):
+  start_date = convert_to_date_object(start_date or PERIOD_START_DATE)
+  end_date = convert_to_date_object(
+    end_date or datetime.today().strftime('%Y-%m-%d'))
+
+  dates = pd.date_range(start=start_date, end=end_date).to_pydatetime().tolist()
+  return [date.strftime("%Y-%m-%d") for date in dates]
+
+
 def download_monthly_klines(trading_type, symbols, num_symbols, intervals, years, months, start_date, end_date, folder, checksum):
   current = 0
   date_range = None
@@ -105,12 +114,8 @@ if __name__ == "__main__":
     if args.dates:
       dates = args.dates
     else:
-      period = convert_to_date_object(datetime.today().strftime('%Y-%m-%d')) - convert_to_date_object(
-        PERIOD_START_DATE)
-      dates = pd.date_range(end=datetime.today(), periods=period.days + 1).to_pydatetime().tolist()
-      dates = [date.strftime("%Y-%m-%d") for date in dates]
+      dates = get_daily_dates(args.startDate, args.endDate)
       if args.skip_monthly == 0:
         download_monthly_klines(args.type, symbols, num_symbols, args.intervals, args.years, args.months, args.startDate, args.endDate, args.folder, args.checksum)
     if args.skip_daily == 0:
       download_daily_klines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate, args.endDate, args.folder, args.checksum)
-
