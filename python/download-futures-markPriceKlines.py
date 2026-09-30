@@ -118,7 +118,9 @@ if __name__ == "__main__":
         period = convert_to_date_object(datetime.today().strftime('%Y-%m-%d')) - convert_to_date_object(PERIOD_START_DATE)
         dates = pd.date_range(end=datetime.today(), periods=period.days + 1).to_pydatetime().tolist()
         dates = [date.strftime("%Y-%m-%d") for date in dates]
-        download_monthly_markPriceKlines(args.type, symbols, num_symbols, args.intervals, args.years, args.months,
+        if args.skip_monthly == 0:
+            download_monthly_markPriceKlines(args.type, symbols, num_symbols, args.intervals, args.years, args.months,
                                           args.startDate, args.endDate, args.folder, args.checksum)
-    download_daily_markPriceKlines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate,
+    if args.skip_daily == 0:
+        download_daily_markPriceKlines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate,
                                     args.endDate, args.folder, args.checksum)
