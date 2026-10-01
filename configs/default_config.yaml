@@ -1,0 +1,84 @@
+# Binance Public Data Downloader - Default Configuration
+
+download:
+  # Market type: spot, um (USD-M futures), cm (COIN-M futures)
+  market_type: spot
+
+  # Number of worker threads for parallel downloads
+  max_workers: 10
+
+  # Output directory for downloaded files (null = use current directory or STORE_DIRECTORY env var)
+  output_directory: null
+
+  # Download .CHECKSUM files along with data files
+  download_checksum: false
+
+  # Verify checksums after download (requires download_checksum: true)
+  verify_checksum: false
+
+  # Skip downloading monthly files
+  skip_monthly: false
+
+  # Skip downloading daily files
+  skip_daily: false
+
+retry:
+  # Maximum number of retry attempts for failed downloads
+  max_retries: 3
+
+  # Initial delay before first retry (seconds)
+  initial_delay: 5.0
+
+  # Use exponential backoff (each retry waits 2x longer than the previous)
+  exponential_backoff: true
+
+date_range:
+  # Start date filter (YYYY-MM-DD format, null = no limit)
+  start_date: null
+
+  # End date filter (YYYY-MM-DD format, null = no limit)
+  end_date: null
+
+  # Years to download (used when not specifying date range)
+  years:
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+    - 2025
+
+  # Months to download (1-12)
+  months:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO
+
+  # Log file path (null = only console logging)
+  file: logs/download.log
+
+  # Log message format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+progress:
+  # Show progress bar during downloads
+  show_bar: true
+
+  # Show detailed statistics
+  show_statistics: true
+
+  # Update interval for statistics (number of files between updates)
+  update_interval: 5

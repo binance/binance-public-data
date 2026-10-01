@@ -1,8 +1,83 @@
+# ===================
+# Data files
+# ===================
+data/spot/
+data/futures/
+data/option/
 *.zip
-!/updates/*.zip
-.DS_Store
+*.csv
+*.CHECKSUM
+
+# Keep symbol_dates.json (useful cache)
+!data/symbol_dates.json
+
+# ===================
+# Python
+# ===================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# ===================
+# IDE & Editors
+# ===================
 .idea/
-*/.DS_Store
-*/.idea/
-*/__pycache__/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# ===================
+# OS files
+# ===================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===================
+# Logs & Cache
+# ===================
+logs/
+*.log
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ===================
+# Temporary files
+# ===================
+*.tmp
+*.temp
+*.bak
+
+# ===================
+# Legacy
+# ===================
 python/data/

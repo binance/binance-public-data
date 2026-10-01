@@ -18,7 +18,7 @@ from utility import download_file, get_all_symbols, get_parser, convert_to_date_
 
 
 def download_monthly_markPriceKlines(trading_type, symbols, num_symbols, intervals, years, months, start_date,
-                                      end_date, folder, checksum):
+                                     end_date, folder, checksum):
     current = 0
     date_range = None
 
@@ -58,7 +58,7 @@ def download_monthly_markPriceKlines(trading_type, symbols, num_symbols, interva
 
 
 def download_daily_markPriceKlines(trading_type, symbols, num_symbols, intervals, dates, start_date, end_date, folder,
-                                    checksum):
+                                   checksum):
     current = 0
     date_range = None
 
@@ -115,10 +115,11 @@ if __name__ == "__main__":
     if args.dates:
         dates = args.dates
     else:
-        period = convert_to_date_object(datetime.today().strftime('%Y-%m-%d')) - convert_to_date_object(PERIOD_START_DATE)
+        period = convert_to_date_object(datetime.today().strftime('%Y-%m-%d')) - convert_to_date_object(
+            PERIOD_START_DATE)
         dates = pd.date_range(end=datetime.today(), periods=period.days + 1).to_pydatetime().tolist()
         dates = [date.strftime("%Y-%m-%d") for date in dates]
         download_monthly_markPriceKlines(args.type, symbols, num_symbols, args.intervals, args.years, args.months,
-                                          args.startDate, args.endDate, args.folder, args.checksum)
+                                         args.startDate, args.endDate, args.folder, args.checksum)
     download_daily_markPriceKlines(args.type, symbols, num_symbols, args.intervals, dates, args.startDate,
-                                    args.endDate, args.folder, args.checksum)
+                                   args.endDate, args.folder, args.checksum)
