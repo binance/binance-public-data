@@ -18,7 +18,7 @@
 
 ## 2. DESCRIPTION AND SCOPE
 
-**2.1.** Binance publishes historical market data, order book metrics, trade flow logs, and related indicators (the `"Datasets"`)made available through [data.binance.vision](https://data.binance.vision/) and associated endpoints.
+**2.1.** Binance publishes historical market data, order book metrics, trade flow logs, and related indicators (the `"Datasets"`) made available through [data.binance.vision](https://data.binance.vision/) and associated endpoints.
 
 **2.2.** The Datasets comprise public digital asset trading records, machine-readable archives, and analytical time-series files.
 
@@ -28,14 +28,13 @@
 
 ## 3. NON-COMMERCIAL LICENSE GRANT
 
-**3.1.** Datasets are provided to You under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (`"CC BY-NC-SA 4.0"`), incorporated herein by reference, except where specifically designated otherwise.
+**3.1.** Datasets are provided to you under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License (`"CC BY-NC-SA 4.0"`), incorporated herein by reference, except where specifically designated otherwise.
 
 **3.2.** You agree to be fully bound by the terms of `CC BY-NC-SA 4.0` and these Vision Dataset Terms upon downloading, caching, querying, or otherwise utilizing the Datasets.
 
 **3.3.** In the event of any conflict between the `CC BY-NC-SA 4.0` license and these Vision Dataset Terms, these Vision Dataset Terms shall be additional to and shall not restrict any rights granted to you under the `CC BY-NC-SA 4.0` license. Where both impose obligations on you, the stricter obligation shall apply. Nothing in these Vision Dataset Terms shall override or limit any rights granted to you under the `CC BY-NC-SA 4.0` license in respect of Datasets already downloaded.
 
-**3.4.** Commercial licensing is strictly excluded under this agreement; any commercial utilization requires a
-separate, written enterprise data license agreement executed with Binance.
+**3.4.** Commercial licensing is strictly excluded under this agreement; any commercial utilization requires a separate, written enterprise data license agreement executed with Binance.
 
 ## 4. SCOPE OF NON-COMMERCIAL USE AND EXPRESS PROHIBITIONS
 
@@ -47,7 +46,7 @@ separate, written enterprise data license agreement executed with Binance.
 
 **4.4.** You shall not integrate the Datasets into commercial financial products, hedge fund management tools, paid subscription newsletters, or commercial trading bot platforms.
 
-**4.5.** You shall ensure that any redistributed derivative work based on the Datasets provides appropriate attribution to Binance Vision and remains licensed under the identical `CC BY-NC-SA 4.0` terms
+**4.5.** You shall ensure that any redistributed derivative work based on the Datasets provides appropriate attribution to Binance Vision and remains licensed under the identical `CC BY-NC-SA 4.0` terms.
 
 ## 5. THIRD-PARTY DATA, NODE FEEDS AND SYSTEM INTEGRATIONS
 
@@ -85,7 +84,7 @@ separate, written enterprise data license agreement executed with Binance.
 
 ## 9. PRIVACY AND DATA PROTECTION COMPLIANCE
 
-**9.1.** Processing of personal data associated with account access or website interactions conforms to applicable data protection legislation, including the `ADGM` Data Protection Regulations 2021 (as the primary framework applicable to the `ADGM` Binance Entities), and where applicable, Singapore's Personal Data Protection Act (PDPA) and the `EU/UK General Data Protection Regulation(GDPR)`.
+**9.1.** Processing of personal data associated with account access or website interactions conforms to applicable data protection legislation, including the `ADGM` Data Protection Regulations 2021 (as the primary framework applicable to the `ADGM` Binance Entities), and where applicable, Singapore's Personal Data Protection Act (PDPA) and the `EU/UK General Data Protection Regulation (GDPR)`.
 
 **9.2.** Datasets do not contain personal data of retail users; You agree not to attempt de-anonymization or reverse-engineering of transaction identifiers to isolate individual natural persons.
 
@@ -109,7 +108,7 @@ separate, written enterprise data license agreement executed with Binance.
 
 ## 12. DISPUTES, GOVERNING LAW, JURISDICTION AND ARBITRATION
 
-The clauses relating to Notice of claim - Negotiation, then Arbitration; Agreement to arbitrate; Governing law; and Class action waiver of the Terms of Use shall apply to any disputes or claims relating to, arising out of or in connection with these Data Vision Terms, including your assent to these Data Vision Terms.
+The clauses relating to Notice of claim - Negotiation, then Arbitration; Agreement to arbitrate; Governing law; and Class action waiver of the Terms of Use shall apply to any disputes or claims relating to, arising out of or in connection with these Vision Dataset Terms, including your assent to these Vision Dataset Terms.
 
 ## 13. TRANSLATIONS
 
