@@ -51,6 +51,8 @@ def download_file(base_path, file_name, date_range=None, folder=None):
     if length:
       length = int(length)
       blocksize = max(4096,length//100)
+    else:
+      blocksize = 4096
 
     with open(save_path, 'wb') as out_file:
       dl_progress = 0
@@ -61,8 +63,11 @@ def download_file(base_path, file_name, date_range=None, folder=None):
           break
         dl_progress += len(buf)
         out_file.write(buf)
-        done = int(50 * dl_progress / length)
-        sys.stdout.write("\r[%s%s]" % ('#' * done, '.' * (50-done)) )    
+        if length:
+          done = int(50 * dl_progress / length)
+          sys.stdout.write("\r[%s%s]" % ('#' * done, '.' * (50-done)) )
+        else:
+          sys.stdout.write("\rDownloaded {} bytes".format(dl_progress))
         sys.stdout.flush()
 
   except urllib.error.HTTPError:
@@ -155,5 +160,4 @@ def get_parser(parser_type):
 
 
   return parser
-
 
