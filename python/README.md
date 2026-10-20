@@ -34,6 +34,7 @@ Some arguments come with a default value if not declared.
 | -folder         | **Directory** to store the downloaded data    | Current directory | No |
 | -c              | 1 to download **checksum file** | 0 | No |
 | -h              | show help messages| - | No |
+| -w              | use parallel workers from `download-kline-parallel.py`|-|No|
 
 #### Example
 
@@ -42,6 +43,9 @@ e.g download ETHUSDT BTCUSDT BNBBUSD spot kline of 1 week interval from year 202
 
 e.g download all symbols' daily USD-M futures kline of 1 minute interval from 2021-01-01 to 2021-02-02:
 `python3 download-kline.py -t um -i 1m -skip-monthly 1 -startDate 2021-01-01 -endDate 2021-02-02`
+
+e.g. download all symbols' monthly frequency daily spot kline data but faster, meaning using parallel workers (and also in a specific folder):
+`python3 download-kline-parallel.py -t spot -i 1d -skip-daily 1 -folder "C:\Users\user\data" -w 15` - this will run 15 workers parallelly; the more the better/faster.
 
 ### Download trades
 
